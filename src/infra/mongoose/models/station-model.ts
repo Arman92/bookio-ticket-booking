@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose, { Schema } from 'mongoose';
 import autoPopulate from 'mongoose-autopopulate';
 
 import FKHelper from '../foreign-key-helper';
 import { IStationModel } from '../types/station-type';
+import { CityModel } from './city-mode;';
 
 const StationSchema = new Schema<IStationModel>(
   {
@@ -40,7 +42,7 @@ const StationSchema = new Schema<IStationModel>(
 );
 
 StationSchema.pre('findOneAndUpdate', function () {
-  this.setUpdate({ ...this.getUpdate, updatedAt: new Date() });
+  this.setUpdate({ ...this.getUpdate(), updatedAt: new Date() });
 });
 
 StationSchema.methods.toJSON = function () {
