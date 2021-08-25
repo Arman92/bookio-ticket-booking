@@ -24,7 +24,7 @@ export class StationRepo implements IStationRepo {
 
   public async save(station: Station) {
     const updated = await this.stationModel.findOneAndUpdate(
-      { id: station.id },
+      { _id: station.id },
       {
         city: station.cityId.toString(),
         name: station.name,

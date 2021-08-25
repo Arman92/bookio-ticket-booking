@@ -1,4 +1,5 @@
-import { Request, Response } from 'express';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { NextFunction, Request, Response } from 'express';
 
 import log from '@shypple/shared/log';
 
@@ -6,7 +7,8 @@ export const errorHandlerMiddleware = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   err: any,
   _req: Request,
-  res: Response
+  res: Response,
+  _next: NextFunction
 ) => {
   log.error(err); // Log error message in our server's console
 
