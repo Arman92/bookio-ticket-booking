@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import log from '@shypple/shared/log';
 
 import { dbURI, mongoDbOptions } from './config';
+import { CityModel } from './models/city-mode;';
+import { seedDb } from './seeders/city-seeder';
 
 log.info(`Connecting to Mongodb via this URI: ${dbURI}`);
 
@@ -11,6 +13,15 @@ mongoose
   .then(async () => {
     mongoose.set('returnOriginal', false);
     log.info(`MongoDb connected!`);
+
+    // Seed the database with fake values, only for testing.
+    CityModel.countDocuments()
+      .exec()
+      .then((count) => {
+        if (count === 0) {
+          seedDb();
+        }
+      });
   })
   .catch((err) => {
     log.error(err);
