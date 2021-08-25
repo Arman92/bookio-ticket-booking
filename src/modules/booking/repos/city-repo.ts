@@ -18,7 +18,7 @@ export class CityRepo implements ICityRepo {
     this.cityModel = cityModel;
   }
 
-  public async exists(id: UniqueEntityID) {
+  public async exists(id: UniqueEntityID | string) {
     return this.cityModel.exists({ id });
   }
 

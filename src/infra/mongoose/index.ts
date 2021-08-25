@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import log from '@shypple/shared/log';
 
 import { dbURI, mongoDbOptions } from './config';
-import { CityModel } from './models/city-mode;';
+import { CityModel } from './models';
 import { seedDb } from './seeders/city-seeder';
 
 log.info(`Connecting to Mongodb via this URI: ${dbURI}`);

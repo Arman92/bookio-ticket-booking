@@ -1,6 +1,5 @@
 import faker from 'faker';
-import { CityModel } from '../models/city-mode;';
-import { StationModel } from '../models/station-model';
+import { CityModel, StationModel } from '../models';
 
 export const seedDb = async () => {
   const cities = [];

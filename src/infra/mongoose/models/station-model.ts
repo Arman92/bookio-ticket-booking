@@ -4,7 +4,7 @@ import autoPopulate from 'mongoose-autopopulate';
 
 import FKHelper from '../foreign-key-helper';
 import { IStationModel } from '../types/station-type';
-import { CityModel } from './city-mode;';
+import { CityModel } from './city-model';
 
 const StationSchema = new Schema<IStationModel>(
   {
