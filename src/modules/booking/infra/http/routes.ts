@@ -1,5 +1,11 @@
 import express from 'express';
+import { createStationController } from '../../controllers/create-station-controller';
 
-const bookingRouter = express.Router();
+const stationsRouter = express.Router();
 
-bookingRouter.post('/book');
+stationsRouter.post(
+  '/',
+  createStationController.execute.bind(createStationController)
+);
+
+export { stationsRouter };
