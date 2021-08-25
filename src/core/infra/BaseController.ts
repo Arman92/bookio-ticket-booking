@@ -1,4 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import express from 'express';
+import {
+  AuthenticationError,
+  ForbiddenError,
+  NotFoundError,
+  ServerError,
+  TimeoutError,
+  UnAuthorizedError,
+  UserInputError,
+} from '../logic/api-errors';
 
 export abstract class BaseController {
   protected req: express.Request;
@@ -73,11 +83,27 @@ export abstract class BaseController {
     );
   }
 
+  public timeout(message?: string) {
+    return BaseController.jsonResponse(
+      this.res,
+      408,
+      message ? message : 'Timeout'
+    );
+  }
+
   public conflict(message?: string) {
     return BaseController.jsonResponse(
       this.res,
       409,
       message ? message : 'Conflict'
+    );
+  }
+
+  public badUserInput(message?: string) {
+    return BaseController.jsonResponse(
+      this.res,
+      422,
+      message ? message : 'Bad user input.'
     );
   }
 
@@ -90,9 +116,30 @@ export abstract class BaseController {
   }
 
   public fail(error: Error | string) {
-    console.log(error);
     return this.res.status(500).json({
       message: error.toString(),
     });
+  }
+
+  public handleError(error: any) {
+    switch (error.constructor) {
+      case AuthenticationError:
+        return this.conflict(error.message);
+      case ForbiddenError:
+        return this.forbidden(error.message);
+      case NotFoundError:
+        return this.notFound(error.message);
+      case ServerError:
+        return this.fail(error.message);
+      case TimeoutError:
+        return this.timeout(error.message);
+      case UnAuthorizedError:
+        return this.unauthorized(error.message);
+      case UserInputError:
+        return this.badUserInput(error.message);
+
+      default:
+        return this.fail(error);
+    }
   }
 }
