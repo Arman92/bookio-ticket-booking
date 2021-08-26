@@ -11,7 +11,7 @@ export interface IGuardArgument {
 export type GuardArgumentCollection = IGuardArgument[];
 
 export class Guard {
-  public static combine(guardResults: IGuardResult[]): IGuardResult {
+  public static combine(...guardResults: IGuardResult[]): IGuardResult {
     for (const result of guardResults) {
       if (result.succeeded === false) return result;
     }
