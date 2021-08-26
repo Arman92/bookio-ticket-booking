@@ -1,7 +1,7 @@
 import { Entity, UniqueEntityID } from '@shypple/core/domain';
 import { Result, Guard } from '@shypple/core/logic';
 
-enum TransportVehicleType {
+export enum TransportVehicleType {
   Bus = 'bus',
   MiniBus = 'mini-bus',
   Train = 'train',
@@ -11,7 +11,7 @@ interface TransportVehicleProps {
   name: string;
   type: TransportVehicleType;
   capacity: number;
-  amenities: string[];
+  amenities?: string[];
 }
 
 export class TransportVehicle extends Entity<TransportVehicleProps> {
@@ -47,8 +47,10 @@ export class TransportVehicle extends Entity<TransportVehicleProps> {
 
     const capacityRange = Guard.inRange(props.capacity, 1, 1000, 'capacity');
 
-    if (!Guard.combine(guardResult, capacityRange)) {
-      return Result.fail<TransportVehicle>(guardResult.message);
+    if (!Guard.combine(guardResult, capacityRange).succeeded) {
+      return Result.fail<TransportVehicle>(
+        guardResult.message || capacityRange.message
+      );
     } else {
       return Result.ok<TransportVehicle>(
         new TransportVehicle(
