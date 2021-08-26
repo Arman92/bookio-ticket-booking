@@ -34,4 +34,16 @@ describe('TransportVehicle', () => {
     expect(transportVehicleOrError.isFailure).to.eq(true);
     expect(transportVehicleOrError.error).to.be.a('string');
   });
+
+  it('Should not create with invalid vehicle type', () => {
+    const transportVehicleOrError = TransportVehicle.create({
+      name: 'Generic bus',
+      type: 'INVALID_TYPE',
+      capacity: 36,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
+
+    expect(transportVehicleOrError.isFailure).to.eq(true);
+    expect(transportVehicleOrError.error).to.be.a('string');
+  });
 });

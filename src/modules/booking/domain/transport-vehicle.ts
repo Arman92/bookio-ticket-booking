@@ -46,10 +46,19 @@ export class TransportVehicle extends Entity<TransportVehicleProps> {
     ]);
 
     const capacityRange = Guard.inRange(props.capacity, 1, 1000, 'capacity');
+    const typeGuard = Guard.isOneOf(
+      props.type,
+      [
+        TransportVehicleType.Bus,
+        TransportVehicleType.MiniBus,
+        TransportVehicleType.Train,
+      ],
+      'type'
+    );
 
-    if (!Guard.combine(guardResult, capacityRange).succeeded) {
+    if (!Guard.combine(guardResult, capacityRange, typeGuard).succeeded) {
       return Result.fail<TransportVehicle>(
-        guardResult.message || capacityRange.message
+        guardResult.message || capacityRange.message || typeGuard.message
       );
     } else {
       return Result.ok<TransportVehicle>(
