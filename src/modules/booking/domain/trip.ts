@@ -12,6 +12,7 @@ interface TripProps {
 
 export class Trip extends Entity<TripProps> {
   public static MAX_FARE = 2000;
+  public static MAX_DURATION = 24 * 60;
 
   private constructor(props: TripProps, id?: UniqueEntityID) {
     super(props, id);
@@ -53,11 +54,11 @@ export class Trip extends Entity<TripProps> {
     const durationGuard = Guard.inRange(
       props.durationMins,
       1,
-      24 * 60,
+      Trip.MAX_DURATION,
       'durationMins'
     );
 
-    const fareGuard = Guard.inRange(props.fare, 0, this.MAX_FARE, 'fare');
+    const fareGuard = Guard.inRange(props.fare, 0, Trip.MAX_FARE, 'fare');
 
     if (!Guard.combine(guardResult, durationGuard, fareGuard).succeeded) {
       return Result.fail<Trip>(
