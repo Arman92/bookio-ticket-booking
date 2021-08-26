@@ -9,6 +9,7 @@ log.info(`Connecting to Mongodb via this URI: ${dbURI}`);
 mongoose
   .connect(dbURI, mongoDbOptions)
   .then(async () => {
+    mongoose.set('returnOriginal', false);
     log.info(`MongoDb connected!`);
   })
   .catch((err) => {
