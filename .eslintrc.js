@@ -19,5 +19,6 @@ module.exports = {
   rules: {
     // disable the rule for all files
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-namespace': 'off'
   },
 };
