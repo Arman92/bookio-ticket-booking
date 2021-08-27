@@ -14,7 +14,7 @@ export class SearchTripsController extends BaseController {
   }
 
   async executeImpl(): Promise<unknown> {
-    const { from, to, departure, arrival } = this.req.query as {
+    const { from, to, departure, arrival, sortBy } = this.req.query as {
       [key: string]: string | null;
     };
 
@@ -23,6 +23,7 @@ export class SearchTripsController extends BaseController {
       toCityId: to,
       departureDate: new Date(departure),
       arrivalDate: arrival ? new Date(arrival) : undefined,
+      sortBy: sortBy as SearchTripDTO['sortBy'],
     };
 
     try {

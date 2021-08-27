@@ -3,6 +3,7 @@ import { ISharedModel } from './shared-model';
 
 export interface IBooking extends Document {
   trip: Types.ObjectId;
+  user: Types.ObjectId;
   seats: number;
   fare: number;
   totalFare: number;

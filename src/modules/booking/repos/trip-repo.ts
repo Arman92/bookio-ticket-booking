@@ -120,6 +120,6 @@ export class TripRepo implements ITripRepo {
       },
     ]);
 
-    return dbTrip.map(TripAdapter.toDomain);
+    return dbTrip as any;
   }
 }

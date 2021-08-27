@@ -1,6 +1,11 @@
 import faker from 'faker';
 import log from '@shypple/shared/log';
-import { CityModel, StationModel, TransportVehicleModel } from '../models';
+import {
+  CityModel,
+  StationModel,
+  TransportVehicleModel,
+  UserModel,
+} from '../models';
 import { TransportVehicleType } from '@shypple/modules/booking/domain/transport-vehicle';
 
 const randomNumber = (min: number, max: number): number => {
@@ -46,7 +51,16 @@ export const seedDb = async () => {
       name: faker.vehicle.manufacturer(),
       type: TransportVehicleType.Bus,
       capacity: randomNumber(10, 45),
-      amenities: amenities.slice(0, randomNumber(0, 3)),
+      amenities,
+    });
+  }
+
+  for (let i = 0; i < 10; i++) {
+    await UserModel.create({
+      name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+      email: faker.internet.email(),
+      username: faker.internet.userName(),
+      password: faker.internet.password(),
     });
   }
 

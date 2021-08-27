@@ -2,7 +2,9 @@ import mongoose, { Schema } from 'mongoose';
 
 import { IBookingModel } from '../types/booking-type';
 import FKHelper from '../foreign-key-helper';
-import { CityModel } from './city-model';
+import { TripModel } from './trip-model';
+import { StationModel } from './station-model';
+import { UserModel } from '.';
 
 const BookingSchema = new Schema<IBookingModel>(
   {
@@ -15,9 +17,24 @@ const BookingSchema = new Schema<IBookingModel>(
       validate: [
         {
           validator(v: any) {
-            return FKHelper(CityModel, v);
+            return FKHelper(TripModel, v);
           },
           msg: 'Trip does not exist!',
+        },
+      ],
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      autopopulate: true,
+      required: true,
+
+      validate: [
+        {
+          validator(v: any) {
+            return FKHelper(UserModel, v);
+          },
+          msg: 'User does not exist!',
         },
       ],
     },
@@ -42,7 +59,7 @@ const BookingSchema = new Schema<IBookingModel>(
       validate: [
         {
           validator(v: any) {
-            return FKHelper(CityModel, v);
+            return FKHelper(StationModel, v);
           },
           msg: 'destination station does not exist!',
         },

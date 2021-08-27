@@ -7,7 +7,7 @@ export class BookingAdapter {
     const bookingOrError = Booking.create(
       {
         tripId: new UniqueEntityID(raw.trip.toString()),
-        userId: new UniqueEntityID(),
+        userId: new UniqueEntityID(raw.user.toString()),
         seats: raw.seats,
         fare: raw.fare,
         totalFare: raw.totalFare,

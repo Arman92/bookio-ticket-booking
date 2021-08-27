@@ -27,6 +27,7 @@ export class BookingRepo implements IBookingRepo {
       { _id: booking.id },
       {
         trip: booking.tripId.toString(),
+        user: booking.userId.toString(),
         seats: booking.seats,
         fare: booking.fare,
         totalFare: booking.totalFare,

@@ -1,4 +1,5 @@
 import express from 'express';
+import { bookController } from '../../controllers/book-controller';
 import { createStationController } from '../../controllers/create-station-controller';
 import { createTripController } from '../../controllers/create-trip-controller';
 import { getCityStationsController } from '../../controllers/get-city-stations-controller';
@@ -31,5 +32,6 @@ tripsRouter.get(
   '/search',
   searchTripsController.execute.bind(searchTripsController)
 );
+tripsRouter.post('/book', bookController.execute.bind(bookController));
 
 export { stationsRouter, citiesRouter, tripsRouter };

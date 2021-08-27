@@ -20,7 +20,7 @@ export class CreateStationController extends BaseController {
       const result = await this.useCase.execute(dto);
 
       if (result.isSuccess) {
-        return this.created(this.res, result);
+        return this.created(this.res, result.getValue());
       }
 
       return this.handleError(result.error as any);

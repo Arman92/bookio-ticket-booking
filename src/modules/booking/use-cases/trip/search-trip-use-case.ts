@@ -11,6 +11,7 @@ export interface SearchTripDTO {
   toCityId: string;
   departureDate: Date;
   arrivalDate?: Date;
+  sortBy?: 'fare' | 'duration' | 'departureDate';
 }
 
 export class SearchTripsUseCase
@@ -57,7 +58,8 @@ export class SearchTripsUseCase
       req.fromCityId,
       req.toCityId,
       req.departureDate,
-      req.arrivalDate
+      req.arrivalDate,
+      req.sortBy
     );
 
     return Result.ok(dbTrips);

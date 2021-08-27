@@ -1,5 +1,6 @@
 import { BaseController } from '@shypple/core/infra/BaseController';
-import { BookDTO } from '../use-cases/book/book-dto';
+import { bookingRepo, stationRepo, tripRepo, userRepo } from '../repos';
+import { BookDTO, BookUseCase } from '../use-cases/trip/book-use-case';
 
 export class BookController extends BaseController {
   private useCase: BookUseCase;
@@ -15,20 +16,17 @@ export class BookController extends BaseController {
     try {
       const result = await this.useCase.execute(dto);
 
-      if (result.isLeft()) {
-        const error = result.value;
-
-        switch (error.constructor) {
-          case CreateUserErrors.AccountAlreadyExists:
-            return this.conflict(error.errorValue().message);
-          default:
-            return this.fail(error.errorValue().message);
-        }
-      } else {
-        return this.ok(this.res);
+      if (result.isSuccess) {
+        return this.created(this.res, result.getValue());
       }
+
+      return this.handleError(result.error as any);
     } catch (err) {
       return this.fail(err);
     }
   }
 }
+
+export const bookController = new BookController(
+  new BookUseCase(tripRepo, stationRepo, bookingRepo, userRepo)
+);
