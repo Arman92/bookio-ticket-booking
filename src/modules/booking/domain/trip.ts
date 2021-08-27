@@ -4,7 +4,7 @@ import { Result, Guard } from '@shypple/core/logic';
 interface TripProps {
   fromStationId: UniqueEntityID;
   toStationId: UniqueEntityID;
-  busId: UniqueEntityID;
+  transportVehicleId: UniqueEntityID;
   durationMins: number;
   fare: number;
   stops?: UniqueEntityID[];
@@ -26,8 +26,8 @@ export class Trip extends Entity<TripProps> {
     return this.props.toStationId;
   }
 
-  get busId() {
-    return this.props.busId;
+  get transportVehicleId() {
+    return this.props.transportVehicleId;
   }
 
   get durationMins() {
@@ -46,7 +46,10 @@ export class Trip extends Entity<TripProps> {
     const guardResult = Guard.againstNullOrUndefinedBulk([
       { argument: props.fromStationId, argumentName: 'fromStationId' },
       { argument: props.toStationId, argumentName: 'toStationId' },
-      { argument: props.busId, argumentName: 'busId' },
+      {
+        argument: props.transportVehicleId,
+        argumentName: 'transportVehicleId',
+      },
       { argument: props.durationMins, argumentName: 'durationMins' },
       { argument: props.fare, argumentName: 'fare' },
     ]);

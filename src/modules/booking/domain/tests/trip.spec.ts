@@ -9,7 +9,7 @@ describe('Trip', () => {
     const tripOrError = Trip.create({
       fromStationId: new UniqueEntityID(),
       toStationId: new UniqueEntityID(),
-      busId: new UniqueEntityID(),
+      transportVehicleId: new UniqueEntityID(),
       durationMins: 60,
       fare: 5,
     });
@@ -24,7 +24,7 @@ describe('Trip', () => {
     const tripOrError = Trip.create({
       fromStationId: new UniqueEntityID(),
       toStationId: new UniqueEntityID(),
-      busId: new UniqueEntityID(),
+      transportVehicleId: new UniqueEntityID(),
       durationMins: 60,
       fare: 5,
       stops: [new UniqueEntityID(), new UniqueEntityID(), new UniqueEntityID()],
@@ -40,7 +40,7 @@ describe('Trip', () => {
     const tripOrError = Trip.create({
       fromStationId: null,
       toStationId: null,
-      busId: new UniqueEntityID(),
+      transportVehicleId: new UniqueEntityID(),
       durationMins: 60,
       fare: 5,
     });
@@ -53,7 +53,7 @@ describe('Trip', () => {
     const tripOrError = Trip.create({
       fromStationId: null,
       toStationId: null,
-      busId: new UniqueEntityID(),
+      transportVehicleId: new UniqueEntityID(),
       durationMins: 0,
       fare: 5,
     });
@@ -66,7 +66,7 @@ describe('Trip', () => {
     const tripOrError = Trip.create({
       fromStationId: null,
       toStationId: null,
-      busId: new UniqueEntityID(),
+      transportVehicleId: new UniqueEntityID(),
       durationMins: 0,
       fare: -10,
     });
