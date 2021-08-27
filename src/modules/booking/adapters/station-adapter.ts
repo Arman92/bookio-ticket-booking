@@ -3,12 +3,15 @@ import { Station } from '../domain/station';
 
 export class StationAdapter {
   public static toDomain(raw: IStationModel) {
-    const stationOrError = Station.create({
-      cityId: raw.id,
-      name: raw.name,
-      latitude: raw.latitude,
-      longitude: raw.longitude,
-    });
+    const stationOrError = Station.create(
+      {
+        cityId: raw.id,
+        name: raw.name,
+        latitude: raw.latitude,
+        longitude: raw.longitude,
+      },
+      raw.id
+    );
 
     if (stationOrError.isFailure)
       throw new Error(stationOrError.error as string);

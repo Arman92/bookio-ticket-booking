@@ -4,14 +4,17 @@ import { Trip } from '../domain/trip';
 
 export class TripAdapter {
   public static toDomain(raw: ITripModel) {
-    const tripOrError = Trip.create({
-      fromStationId: new UniqueEntityID(raw.fromStation.toString()),
-      toStationId: new UniqueEntityID(raw.toStation.toString()),
-      busId: new UniqueEntityID(raw.bus.toString()),
-      durationMins: raw.durationMins,
-      fare: raw.fare,
-      stops: raw.stops.map((stop) => new UniqueEntityID(stop.toString())),
-    });
+    const tripOrError = Trip.create(
+      {
+        fromStationId: new UniqueEntityID(raw.fromStation.toString()),
+        toStationId: new UniqueEntityID(raw.toStation.toString()),
+        transportVehicleId: new UniqueEntityID(raw.bus.toString()),
+        durationMins: raw.durationMins,
+        fare: raw.fare,
+        stops: raw.stops.map((stop) => new UniqueEntityID(stop.toString())),
+      },
+      raw.id
+    );
 
     if (tripOrError.isFailure) throw new Error(tripOrError.error as string);
 
