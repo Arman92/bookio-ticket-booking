@@ -3,7 +3,7 @@ import { cityRepo, stationRepo } from '../repos';
 import {
   CreateStationDTO,
   CreateStationUseCase,
-} from '../use-cases/station/create-station/create-station-use-case';
+} from '../use-cases/station/create-station-use-case';
 
 export class CreateStationController extends BaseController {
   private useCase: CreateStationUseCase;
@@ -20,7 +20,7 @@ export class CreateStationController extends BaseController {
       const result = await this.useCase.execute(dto);
 
       if (result.isSuccess) {
-        return this.ok(this.res, result);
+        return this.created(this.res, result);
       }
 
       return this.handleError(result.error as any);

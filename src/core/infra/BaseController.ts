@@ -39,8 +39,12 @@ export abstract class BaseController {
     }
   }
 
-  public created(res: express.Response) {
-    return res.sendStatus(201);
+  public created<T>(res: express.Response, dto?: T) {
+    if (dto) {
+      return res.status(201).json(dto);
+    } else {
+      return res.sendStatus(201);
+    }
   }
 
   public clientError(message?: string) {

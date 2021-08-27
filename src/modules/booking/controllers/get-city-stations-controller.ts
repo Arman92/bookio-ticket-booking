@@ -3,7 +3,7 @@ import { cityRepo, stationRepo } from '../repos';
 import {
   GetCityStationsDTO,
   GetCityStationsUseCase,
-} from '../use-cases/citiy/get-city-stations/get-city-stations-use-case';
+} from '../use-cases/city/get-city-stations-use-case';
 
 export class GetCityStationsController extends BaseController {
   private useCase: GetCityStationsUseCase;
