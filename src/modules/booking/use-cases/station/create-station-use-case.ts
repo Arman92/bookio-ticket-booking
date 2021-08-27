@@ -3,8 +3,8 @@ import { UseCase } from '@shypple/core/domain/use-case';
 import { Result } from '@shypple/core/logic';
 import { NotFoundError } from '@shypple/core/logic/api-errors';
 import { CityRepo } from '@shypple/modules/booking/repos/city-repo';
-import { Station } from '../../../domain/station';
-import { StationRepo } from '../../../repos/station-repo';
+import { Station } from '../../domain/station';
+import { StationRepo } from '../../repos/station-repo';
 
 export interface CreateStationDTO {
   cityId: string;

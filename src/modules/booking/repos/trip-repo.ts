@@ -28,7 +28,7 @@ export class TripRepo implements ITripRepo {
       {
         toStation: trip.toStationId.toString(),
         fromStation: trip.fromStationId.toString(),
-        bus: trip.busId.toString(),
+        bus: trip.transportVehicleId.toString(),
         durationMins: trip.durationMins,
         fare: trip.fare,
         stops: trip.stops.map((stop) => stop.toString()),
