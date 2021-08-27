@@ -1,10 +1,9 @@
-import { UniqueEntityID } from '@shypple/core/domain';
 import { UseCase } from '@shypple/core/domain/use-case';
 import { Result } from '@shypple/core/logic';
 import { NotFoundError } from '@shypple/core/logic/api-errors';
 import { CityRepo } from '@shypple/modules/booking/repos/city-repo';
-import { Station } from '../../../domain/station';
-import { StationRepo } from '../../../repos/station-repo';
+import { Station } from '../../domain/station';
+import { StationRepo } from '../../repos';
 
 export interface GetCityStationsDTO {
   cityId: string;
@@ -28,9 +27,7 @@ export class GetCityStationsUseCase
       return Result.fail(new NotFoundError('City does not exist.'));
     }
 
-    const stations = await this.stationRepo.findByCityId(
-      new UniqueEntityID(req.cityId)
-    );
+    const stations = await this.stationRepo.findByCityId(req.cityId);
 
     return Result.ok(stations);
   }

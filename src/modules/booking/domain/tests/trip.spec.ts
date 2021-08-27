@@ -17,6 +17,7 @@ describe('Trip', () => {
       departureDate: now,
       arrivalDate: addHours(now, 5),
       fare: 5,
+      capacity: 50,
     });
 
     expect(tripOrError.isSuccess).to.eq(true);
@@ -34,6 +35,7 @@ describe('Trip', () => {
       departureDate: now,
       arrivalDate: then,
       fare: 5,
+      capacity: 50,
       stops: [new UniqueEntityID(), new UniqueEntityID(), new UniqueEntityID()],
     });
 
@@ -52,6 +54,7 @@ describe('Trip', () => {
       departureDate: now,
       arrivalDate: then,
       fare: 5,
+      capacity: 50,
     });
 
     expect(tripOrError.isFailure).to.eq(true);
@@ -66,6 +69,7 @@ describe('Trip', () => {
       departureDate: then,
       arrivalDate: now,
       fare: 5,
+      capacity: 50,
     });
 
     expect(tripOrError.isFailure).to.eq(true);
@@ -80,6 +84,22 @@ describe('Trip', () => {
       departureDate: now,
       arrivalDate: then,
       fare: -10,
+      capacity: 50,
+    });
+
+    expect(tripOrError.isFailure).to.eq(true);
+    expect(tripOrError.error).to.be.a('string');
+  });
+
+  it('Should not create with invalid capacity', () => {
+    const tripOrError = Trip.create({
+      fromStationId: null,
+      toStationId: null,
+      transportVehicleId: new UniqueEntityID(),
+      departureDate: now,
+      arrivalDate: then,
+      fare: -10,
+      capacity: 0,
     });
 
     expect(tripOrError.isFailure).to.eq(true);

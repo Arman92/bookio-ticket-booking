@@ -8,6 +8,7 @@ interface TripProps {
   departureDate: Date;
   arrivalDate: Date;
   fare: number;
+  capacity: number;
   stops?: UniqueEntityID[];
 }
 
@@ -47,6 +48,10 @@ export class Trip extends Entity<TripProps> {
     return this.props.fare;
   }
 
+  get capacity() {
+    return this.props.capacity;
+  }
+
   public static create(props: TripProps, id?: UniqueEntityID): Result<Trip> {
     const guardResult = Guard.againstNullOrUndefinedBulk([
       { argument: props.fromStationId, argumentName: 'fromStationId' },
@@ -64,9 +69,11 @@ export class Trip extends Entity<TripProps> {
         argumentName: 'arrivalDate',
       },
       { argument: props.fare, argumentName: 'fare' },
+      { argument: props.capacity, argumentName: 'capacity' },
     ]);
 
     const fareGuard = Guard.inRange(props.fare, 0, Trip.MAX_FARE, 'fare');
+    const capacityRange = Guard.inRange(props.capacity, 1, 1000, 'capacity');
 
     if (props.arrivalDate <= props.departureDate) {
       return Result.fail('Arrival date should be greater than Departure date.');
@@ -84,8 +91,10 @@ export class Trip extends Entity<TripProps> {
       );
     }
 
-    if (!Guard.combine(guardResult, fareGuard).succeeded) {
-      return Result.fail<Trip>(guardResult.message || fareGuard.message);
+    if (!Guard.combine(guardResult, fareGuard, capacityRange).succeeded) {
+      return Result.fail<Trip>(
+        guardResult.message || fareGuard.message || capacityRange.message
+      );
     } else {
       return Result.ok<Trip>(
         new Trip({ ...props, stops: props.stops ? props.stops : [] }, id)

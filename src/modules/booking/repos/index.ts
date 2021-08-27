@@ -11,7 +11,7 @@ import { TransportVehicleRepo } from './transport-vehicle-repo';
 
 const stationRepo = new StationRepo(StationModel);
 const cityRepo = new CityRepo(CityModel);
-const tripRepo = new TripRepo(TripModel);
+const tripRepo = new TripRepo(TripModel, StationModel);
 const transportVehicleRepo = new TransportVehicleRepo(TransportVehicleModel);
 
 export { stationRepo, cityRepo, tripRepo, transportVehicleRepo };

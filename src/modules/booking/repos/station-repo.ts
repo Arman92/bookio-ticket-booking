@@ -7,9 +7,9 @@ import { IStationModel } from '@shypple/infra/mongoose/types/station-type';
 import { StationAdapter } from '../adapters/station-adapter';
 
 export interface IStationRepo extends Repo<Station> {
-  findById(id: UniqueEntityID): Promise<Station>;
-  removeById(id: UniqueEntityID): Promise<boolean>;
-  findByCityId(cityId: UniqueEntityID): Promise<Station[]>;
+  findById(id: string): Promise<Station>;
+  removeById(id: string): Promise<boolean>;
+  findByCityId(cityId: string): Promise<Station[]>;
 }
 
 export class StationRepo implements IStationRepo {
@@ -38,21 +38,21 @@ export class StationRepo implements IStationRepo {
     return StationAdapter.toDomain(updated);
   }
 
-  public async findById(id: UniqueEntityID) {
+  public async findById(id: string) {
     const dbStation = await this.stationModel.findById(id);
 
     return StationAdapter.toDomain(dbStation);
   }
 
-  public async findByCityId(cityId: UniqueEntityID) {
+  public async findByCityId(cityId: string) {
     const dbStations = await this.stationModel.find({
-      city: cityId.toString(),
+      city: cityId,
     });
 
     return dbStations.map(StationAdapter.toDomain);
   }
 
-  public async removeById(id: UniqueEntityID) {
+  public async removeById(id: string) {
     try {
       const res = await this.stationModel.remove({ id });
 

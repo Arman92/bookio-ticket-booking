@@ -46,11 +46,11 @@ export class CreateTripUseCase implements UseCase<CreateTripDTO, Result<Trip>> {
       return Result.fail(new NotFoundError('To Station does not exist.'));
     }
 
-    const transportVehicleExists = await this.transportVehicleRepo.exists(
-      req.transportVehicleId
+    const transportVehicle = await this.transportVehicleRepo.findById(
+      new UniqueEntityID(req.transportVehicleId)
     );
 
-    if (!transportVehicleExists) {
+    if (!transportVehicle) {
       return Result.fail(
         new NotFoundError('Transport vehicle does not exist.')
       );
@@ -63,6 +63,7 @@ export class CreateTripUseCase implements UseCase<CreateTripDTO, Result<Trip>> {
       departureDate: new Date(req.departureDate),
       arrivalDate: new Date(req.arrivalDate),
       fare: req.fare,
+      capacity: transportVehicle.capacity,
       stops:
         req.stops && req.stops.length
           ? req.stops.map((stop) => new UniqueEntityID(stop))
