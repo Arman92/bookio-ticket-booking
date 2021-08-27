@@ -65,6 +65,16 @@ const BookingSchema = new Schema<IBookingModel>(
         },
       ],
     },
+    isCanceled: {
+      type: Boolean,
+      require: false,
+      default: false,
+    },
+    cancelReason: {
+      type: String,
+      require: false,
+      default: '',
+    },
   },
   {
     timestamps: true,

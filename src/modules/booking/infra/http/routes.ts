@@ -3,6 +3,7 @@ import { bookController } from '../../controllers/book-controller';
 import { createStationController } from '../../controllers/create-station-controller';
 import { createTripController } from '../../controllers/create-trip-controller';
 import { getCityStationsController } from '../../controllers/get-city-stations-controller';
+import { refundBookingController } from '../../controllers/refund-booking-controller';
 import { searchCitiesController } from '../../controllers/search-cities-controller';
 import { searchTripsController } from '../../controllers/search-trip-controller';
 
@@ -33,5 +34,9 @@ tripsRouter.get(
   searchTripsController.execute.bind(searchTripsController)
 );
 tripsRouter.post('/book', bookController.execute.bind(bookController));
+tripsRouter.post(
+  '/refund',
+  refundBookingController.execute.bind(refundBookingController)
+);
 
 export { stationsRouter, citiesRouter, tripsRouter };

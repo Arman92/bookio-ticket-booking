@@ -56,4 +56,19 @@ export class BookingRepo implements IBookingRepo {
       return false;
     }
   }
+
+  public async cancelBooking(bookingId: string, reason: string) {
+    const updated = await this.bookingModel.findOneAndUpdate(
+      { _id: bookingId },
+      {
+        $set: {
+          isCanceled: true,
+          cancelReason: reason,
+        },
+      },
+      { upsert: false, useFindAndModify: false }
+    );
+
+    return BookingAdapter.toDomain(updated);
+  }
 }

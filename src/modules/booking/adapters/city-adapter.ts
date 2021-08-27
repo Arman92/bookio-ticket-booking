@@ -3,15 +3,18 @@ import { City } from '../domain/city';
 
 export class CityAdapter {
   public static toDomain(raw: ICityModel) {
-    const cityOrError = City.create(
-      {
-        name: raw.name,
-      },
-      raw.id || raw._id
-    );
+    if (raw) {
+      const cityOrError = City.create(
+        {
+          name: raw.name,
+        },
+        raw.id || raw._id
+      );
 
-    if (cityOrError.isFailure) throw new Error(cityOrError.error as string);
+      if (cityOrError.isFailure) throw new Error(cityOrError.error as string);
 
-    return cityOrError.getValue();
+      return cityOrError.getValue();
+    }
+    return null;
   }
 }

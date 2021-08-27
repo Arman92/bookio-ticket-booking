@@ -8,6 +8,8 @@ export interface IBooking extends Document {
   fare: number;
   totalFare: number;
   destinationStation: Types.ObjectId;
+  isCanceled?: boolean;
+  cancelReason?: string;
 }
 
 export interface IBookingModel extends IBooking, ISharedModel {}
