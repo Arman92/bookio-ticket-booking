@@ -67,7 +67,7 @@ export class Booking extends Entity<BookingProps> {
     const durationGuard = Guard.inRange(
       props.durationInMins,
       1,
-      Trip.MAX_DURATION,
+      Trip.MAX_DURATION_MINS,
       'durationInMins'
     );
 

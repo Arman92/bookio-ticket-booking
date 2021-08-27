@@ -5,14 +5,15 @@ interface TripProps {
   fromStationId: UniqueEntityID;
   toStationId: UniqueEntityID;
   transportVehicleId: UniqueEntityID;
-  durationMins: number;
+  departureDate: Date;
+  arrivalDate: Date;
   fare: number;
   stops?: UniqueEntityID[];
 }
 
 export class Trip extends Entity<TripProps> {
   public static MAX_FARE = 2000;
-  public static MAX_DURATION = 24 * 60;
+  public static MAX_DURATION_MINS = 24 * 60;
 
   private constructor(props: TripProps, id?: UniqueEntityID) {
     super(props, id);
@@ -30,8 +31,12 @@ export class Trip extends Entity<TripProps> {
     return this.props.transportVehicleId;
   }
 
-  get durationMins() {
-    return this.props.durationMins;
+  get departureDate() {
+    return this.props.departureDate;
+  }
+
+  get arrivalDate() {
+    return this.props.arrivalDate;
   }
 
   get stops() {
@@ -50,23 +55,37 @@ export class Trip extends Entity<TripProps> {
         argument: props.transportVehicleId,
         argumentName: 'transportVehicleId',
       },
-      { argument: props.durationMins, argumentName: 'durationMins' },
+      {
+        argument: props.departureDate,
+        argumentName: 'departureDate',
+      },
+      {
+        argument: props.arrivalDate,
+        argumentName: 'arrivalDate',
+      },
       { argument: props.fare, argumentName: 'fare' },
     ]);
 
-    const durationGuard = Guard.inRange(
-      props.durationMins,
-      1,
-      Trip.MAX_DURATION,
-      'durationMins'
-    );
-
     const fareGuard = Guard.inRange(props.fare, 0, Trip.MAX_FARE, 'fare');
 
-    if (!Guard.combine(guardResult, durationGuard, fareGuard).succeeded) {
-      return Result.fail<Trip>(
-        guardResult.message || durationGuard.message || fareGuard.message
+    if (props.arrivalDate <= props.departureDate) {
+      return Result.fail('Arrival date should be greater than Departure date.');
+    }
+
+    const duration =
+      (props.arrivalDate.getTime() - props.departureDate.getTime()) /
+      (1000 * 60);
+
+    if (duration > Trip.MAX_DURATION_MINS) {
+      return Result.fail(
+        `Trip duration exceeds maximum allowed limit ${
+          Trip.MAX_DURATION_MINS / 60
+        } hours`
       );
+    }
+
+    if (!Guard.combine(guardResult, fareGuard).succeeded) {
+      return Result.fail<Trip>(guardResult.message || fareGuard.message);
     } else {
       return Result.ok<Trip>(
         new Trip({ ...props, stops: props.stops ? props.stops : [] }, id)

@@ -51,8 +51,12 @@ const TripSchema = new Schema<ITripModel>(
         },
       ],
     },
-    durationMins: {
-      type: Number,
+    departureDate: {
+      type: Date,
+      required: true,
+    },
+    arrivalDate: {
+      type: Date,
       required: true,
     },
     fare: {

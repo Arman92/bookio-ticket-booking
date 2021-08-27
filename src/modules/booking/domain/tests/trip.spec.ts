@@ -1,21 +1,27 @@
 import 'mocha';
 import { expect } from 'chai';
+import { addHours } from 'date-fns';
 
 import { UniqueEntityID } from '@shypple/core/domain';
 import { Trip } from '../trip';
 
 describe('Trip', () => {
+  const now = new Date();
+  const then = addHours(now, 5);
+
   it('Should be able to be created Trip', () => {
     const tripOrError = Trip.create({
       fromStationId: new UniqueEntityID(),
       toStationId: new UniqueEntityID(),
       transportVehicleId: new UniqueEntityID(),
-      durationMins: 60,
+      departureDate: now,
+      arrivalDate: addHours(now, 5),
       fare: 5,
     });
 
     expect(tripOrError.isSuccess).to.eq(true);
-    expect(tripOrError.getValue().durationMins).to.eq(60);
+    expect(tripOrError.getValue().departureDate.getTime()).to.eq(now.getTime());
+    expect(tripOrError.getValue().arrivalDate.getTime()).to.eq(then.getTime());
     expect(tripOrError.getValue().fare).to.eq(5);
     expect(tripOrError.getValue().stops).to.be.an('array').that.has.lengthOf(0);
   });
@@ -25,13 +31,15 @@ describe('Trip', () => {
       fromStationId: new UniqueEntityID(),
       toStationId: new UniqueEntityID(),
       transportVehicleId: new UniqueEntityID(),
-      durationMins: 60,
+      departureDate: now,
+      arrivalDate: then,
       fare: 5,
       stops: [new UniqueEntityID(), new UniqueEntityID(), new UniqueEntityID()],
     });
 
     expect(tripOrError.isSuccess).to.eq(true);
-    expect(tripOrError.getValue().durationMins).to.eq(60);
+    expect(tripOrError.getValue().departureDate.getTime()).to.eq(now.getTime());
+    expect(tripOrError.getValue().arrivalDate.getTime()).to.eq(then.getTime());
     expect(tripOrError.getValue().fare).to.eq(5);
     expect(tripOrError.getValue().stops).to.be.an('array').that.has.lengthOf(3);
   });
@@ -41,7 +49,8 @@ describe('Trip', () => {
       fromStationId: null,
       toStationId: null,
       transportVehicleId: new UniqueEntityID(),
-      durationMins: 60,
+      departureDate: now,
+      arrivalDate: then,
       fare: 5,
     });
 
@@ -49,12 +58,13 @@ describe('Trip', () => {
     expect(tripOrError.error).to.be.a('string');
   });
 
-  it('Should not create with invalid duration', () => {
+  it('Should not create with invalid departure/arrival', () => {
     const tripOrError = Trip.create({
       fromStationId: null,
       toStationId: null,
       transportVehicleId: new UniqueEntityID(),
-      durationMins: 0,
+      departureDate: then,
+      arrivalDate: now,
       fare: 5,
     });
 
@@ -67,7 +77,8 @@ describe('Trip', () => {
       fromStationId: null,
       toStationId: null,
       transportVehicleId: new UniqueEntityID(),
-      durationMins: 0,
+      departureDate: now,
+      arrivalDate: then,
       fare: -10,
     });
 

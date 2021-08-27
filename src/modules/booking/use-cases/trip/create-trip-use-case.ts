@@ -13,7 +13,8 @@ export interface CreateTripDTO {
   fromStationId: string;
   toStationId: string;
   transportVehicleId: string;
-  durationMins: number;
+  departureDate: string;
+  arrivalDate: string;
   fare: number;
   stops?: string[];
 }
@@ -59,7 +60,8 @@ export class CreateTripUseCase implements UseCase<CreateTripDTO, Result<Trip>> {
       fromStationId: new UniqueEntityID(req.fromStationId),
       toStationId: new UniqueEntityID(req.toStationId),
       transportVehicleId: new UniqueEntityID(req.transportVehicleId),
-      durationMins: req.durationMins,
+      departureDate: new Date(req.departureDate),
+      arrivalDate: new Date(req.arrivalDate),
       fare: req.fare,
       stops:
         req.stops && req.stops.length

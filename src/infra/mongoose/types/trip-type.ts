@@ -5,7 +5,8 @@ export interface ITrip extends Document {
   fromStation: Types.ObjectId;
   toStation: Types.ObjectId;
   bus: Types.ObjectId;
-  durationMins: number;
+  departureDate: Date;
+  arrivalDate: Date;
   fare: number;
   stops: Types.ObjectId[];
 }
