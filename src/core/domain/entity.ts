@@ -28,4 +28,11 @@ export abstract class Entity<T> {
 
     return this.id.equals(object.id);
   }
+
+  public toJSON() {
+    return {
+      id: this.id.toString(),
+      ...this.props,
+    };
+  }
 }
