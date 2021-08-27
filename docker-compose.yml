@@ -16,7 +16,7 @@ services:
       - app-network
 
   database:
-    image: mongo:latest
+    image: mongo:5.0.2
     container_name: shypple-mongo
     hostname: mongodbserver
     env_file: .env

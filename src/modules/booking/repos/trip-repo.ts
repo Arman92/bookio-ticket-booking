@@ -5,12 +5,11 @@ import { UniqueEntityID } from '@shypple/core/domain';
 import { Trip } from '../domain/trip';
 import { ITripModel } from '@shypple/infra/mongoose/types/trip-type';
 import { TripAdapter } from '../adapters/trip-adapter';
-import { ICityModel } from '@shypple/infra/mongoose/types/city-type';
 import { IStationModel } from '@shypple/infra/mongoose/types/station-type';
 
 export interface ITripRepo extends Repo<Trip> {
-  findById(id: UniqueEntityID): Promise<Trip>;
-  removeById(id: UniqueEntityID): Promise<boolean>;
+  findById(id: string): Promise<Trip>;
+  removeById(id: string): Promise<boolean>;
 }
 
 export class TripRepo implements ITripRepo {
@@ -52,13 +51,13 @@ export class TripRepo implements ITripRepo {
     return TripAdapter.toDomain(updated);
   }
 
-  public async findById(id: UniqueEntityID) {
+  public async findById(id: string) {
     const dbTrip = await this.tripModel.findById(id);
 
     return TripAdapter.toDomain(dbTrip);
   }
 
-  public async removeById(id: UniqueEntityID) {
+  public async removeById(id: string) {
     try {
       const res = await this.tripModel.remove({ id });
 

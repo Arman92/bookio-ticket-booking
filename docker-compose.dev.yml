@@ -1,28 +1,28 @@
 version: '3.7'
 
 services:
-  server-dev:
-    build:
-      context: ./
-      dockerfile: Dockerfile.dev
-    image: shypple-server-dev
-    container_name: shypple-node-server
-    ports:
-      - '${APP_PORT}:${APP_PORT}'
-      - '9896:9896' # Debug port
+  # server-dev:
+  #   build:
+  #     context: ./
+  #     dockerfile: Dockerfile.dev
+  #   image: shypple-server-dev
+  #   container_name: shypple-node-server
+  #   ports:
+  #     - '${APP_PORT}:${APP_PORT}'
+  #     - '9896:9896' # Debug port
 
-    env_file: .env
-    environment:
-      - NODE_ENV=development
-    volumes:
-      - ./:/usr/src/app # Map all local files for hot-reload
-      - /usr/src/app/node_modules/ # Exclude node_modules from volume
-    command: 'yarn run dev:debug'
-    networks:
-      - app-network
+  #   env_file: .env
+  #   environment:
+  #     - NODE_ENV=development
+  #   volumes:
+  #     - ./:/usr/src/app # Map all local files for hot-reload
+  #     - /usr/src/app/node_modules/ # Exclude node_modules from volume
+  #   command: 'yarn run dev:debug'
+  #   networks:
+  #     - app-network
 
   database-dev:
-    image: mongo:latest
+    image: mongo:5.0.2
     container_name: shypple-mongo-dev
     hostname: mongodbserver
     env_file: .env
@@ -34,6 +34,8 @@ services:
       - ./docker-volumes/mongo:/data/db
     networks:
       - app-network
+    ports:
+      - '27020:27017'
 
 networks:
   app-network:

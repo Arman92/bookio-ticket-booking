@@ -11,16 +11,14 @@ describe('Booking', () => {
       userId: new UniqueEntityID(),
       seats: 2,
       fare: 5.99,
-      total_fare: 10,
+      totalFare: 10,
       destinationStation: new UniqueEntityID(),
-      durationInMins: 60,
     });
 
     expect(bookingOrError.isSuccess).to.eq(true);
     expect(bookingOrError.getValue().seats).to.eq(2);
     expect(bookingOrError.getValue().fare).to.eq(5.99);
-    expect(bookingOrError.getValue().total_fare).to.eq(10);
-    expect(bookingOrError.getValue().durationInMins).to.eq(60);
+    expect(bookingOrError.getValue().totalFare).to.eq(10);
   });
 
   it('Should not create with invalid tripId', () => {
@@ -29,9 +27,8 @@ describe('Booking', () => {
       userId: new UniqueEntityID(),
       seats: 2,
       fare: 5.99,
-      total_fare: 10,
+      totalFare: 10,
       destinationStation: new UniqueEntityID(),
-      durationInMins: 60,
     });
 
     expect(bookingOrError.isFailure).to.eq(true);
@@ -44,9 +41,8 @@ describe('Booking', () => {
       userId: null,
       seats: 2,
       fare: 5.99,
-      total_fare: 10,
+      totalFare: 10,
       destinationStation: new UniqueEntityID(),
-      durationInMins: 60,
     });
 
     expect(bookingOrError.isFailure).to.eq(true);
@@ -59,9 +55,8 @@ describe('Booking', () => {
       userId: new UniqueEntityID(),
       seats: 0,
       fare: 5.99,
-      total_fare: 10,
+      totalFare: 10,
       destinationStation: new UniqueEntityID(),
-      durationInMins: 60,
     });
 
     expect(bookingOrError.isFailure).to.eq(true);

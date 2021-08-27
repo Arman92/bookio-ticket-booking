@@ -7,9 +7,8 @@ interface BookingProps {
   userId: UniqueEntityID;
   seats: number;
   fare: number;
-  total_fare: number;
+  totalFare: number;
   destinationStation: UniqueEntityID;
-  durationInMins: number;
 }
 
 export class Booking extends Entity<BookingProps> {
@@ -35,16 +34,12 @@ export class Booking extends Entity<BookingProps> {
     return this.props.fare;
   }
 
-  get total_fare() {
-    return this.props.total_fare;
+  get totalFare() {
+    return this.props.totalFare;
   }
 
   get destinationStation() {
     return this.props.destinationStation;
-  }
-
-  get durationInMins() {
-    return this.props.durationInMins;
   }
 
   public static create(
@@ -56,20 +51,12 @@ export class Booking extends Entity<BookingProps> {
       { argument: props.userId, argumentName: 'userId' },
       { argument: props.seats, argumentName: 'seats' },
       { argument: props.fare, argumentName: 'fare' },
-      { argument: props.total_fare, argumentName: 'total_fare' },
+      { argument: props.totalFare, argumentName: 'totalFare' },
       {
         argument: props.destinationStation,
         argumentName: 'destinationStation',
       },
-      { argument: props.durationInMins, argumentName: 'durationInMins' },
     ]);
-
-    const durationGuard = Guard.inRange(
-      props.durationInMins,
-      1,
-      Trip.MAX_DURATION_MINS,
-      'durationInMins'
-    );
 
     const fareGuard = Guard.inRange(props.fare, 0, Trip.MAX_FARE, 'fare');
     const totalFareGuard = Guard.inRange(
@@ -86,17 +73,11 @@ export class Booking extends Entity<BookingProps> {
     );
 
     if (
-      !Guard.combine(
-        guardResult,
-        durationGuard,
-        fareGuard,
-        seatsGuard,
-        totalFareGuard
-      ).succeeded
+      !Guard.combine(guardResult, fareGuard, seatsGuard, totalFareGuard)
+        .succeeded
     ) {
       return Result.fail<Booking>(
         guardResult.message ||
-          durationGuard.message ||
           fareGuard.message ||
           seatsGuard.message ||
           totalFareGuard.message
