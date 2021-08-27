@@ -7,6 +7,7 @@ const CitySchema = new Schema<ICityModel>(
     name: {
       type: String,
       required: true,
+      index: { type: 'text' },
     },
   },
   {

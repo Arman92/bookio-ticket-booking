@@ -49,4 +49,29 @@ export class CityRepo implements ICityRepo {
       return false;
     }
   }
+
+  public async search(partialName: string) {
+    // This could be changed to Mongodb Atlas search
+    const dbCities = await this.cityModel.aggregate([
+      {
+        $match: {
+          name: {
+            $regex: partialName,
+            $options: 'i',
+          },
+        },
+      },
+      {
+        $limit: 10,
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+        },
+      },
+    ]);
+
+    return dbCities.map(CityAdapter.toDomain);
+  }
 }
