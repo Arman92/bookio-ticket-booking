@@ -3,9 +3,25 @@ import mongoose, { Schema } from 'mongoose';
 import { ITripModel } from '../types/trip-type';
 import FKHelper from '../foreign-key-helper';
 import { StationModel } from './station-model';
+import { CityModel } from './city-model';
 
 const TripSchema = new Schema<ITripModel>(
   {
+    fromCity: {
+      type: Schema.Types.ObjectId,
+      ref: 'City',
+      autopopulate: true,
+      required: true,
+
+      validate: [
+        {
+          validator(v: any) {
+            return FKHelper(CityModel, v);
+          },
+          msg: 'from City does not exist!',
+        },
+      ],
+    },
     fromStation: {
       type: Schema.Types.ObjectId,
       ref: 'Station',
@@ -36,7 +52,22 @@ const TripSchema = new Schema<ITripModel>(
         },
       ],
     },
-    bus: {
+    toCity: {
+      type: Schema.Types.ObjectId,
+      ref: 'City',
+      autopopulate: true,
+      required: true,
+
+      validate: [
+        {
+          validator(v: any) {
+            return FKHelper(CityModel, v);
+          },
+          msg: 'to City does not exist!',
+        },
+      ],
+    },
+    transportVehicle: {
       type: Schema.Types.ObjectId,
       ref: 'Bus',
       autopopulate: true,
@@ -67,6 +98,10 @@ const TripSchema = new Schema<ITripModel>(
       type: [Schema.Types.ObjectId],
       required: true,
       default: [],
+    },
+    capacity: {
+      type: Number,
+      required: true,
     },
   },
   {

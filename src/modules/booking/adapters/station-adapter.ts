@@ -1,3 +1,4 @@
+import { UniqueEntityID } from '@shypple/core/domain';
 import { IStationModel } from '@shypple/infra/mongoose/types/station-type';
 import { Station } from '../domain/station';
 
@@ -5,12 +6,12 @@ export class StationAdapter {
   public static toDomain(raw: IStationModel) {
     const stationOrError = Station.create(
       {
-        cityId: raw.id,
+        cityId: new UniqueEntityID(raw.city.toString()),
         name: raw.name,
         latitude: raw.latitude,
         longitude: raw.longitude,
       },
-      raw.id
+      raw.id || raw._id
     );
 
     if (stationOrError.isFailure)

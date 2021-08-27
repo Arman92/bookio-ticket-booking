@@ -11,7 +11,6 @@ const StationSchema = new Schema<IStationModel>(
     city: {
       type: Schema.Types.ObjectId,
       ref: 'City',
-      autopopulate: true,
       required: true,
 
       validate: [

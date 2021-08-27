@@ -10,7 +10,7 @@ export class TransportVehicleAdapter {
         type: raw.type,
         amenities: raw.amenities,
       },
-      raw.id
+      raw.id || raw._id
     );
 
     if (transportVehicleOrError.isFailure)

@@ -7,7 +7,7 @@ export class CityAdapter {
       {
         name: raw.name,
       },
-      raw.id
+      raw.id || raw._id
     );
 
     if (cityOrError.isFailure) throw new Error(cityOrError.error as string);
