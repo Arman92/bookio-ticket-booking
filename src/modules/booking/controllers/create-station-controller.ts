@@ -1,9 +1,9 @@
 import { BaseController } from '@shypple/core/infra/BaseController';
-import { stationRepo } from '../repos';
+import { cityRepo, stationRepo } from '../repos';
 import {
   CreateStationDTO,
   CreateStationUseCase,
-} from '../use-cases/station/create-station-use-case';
+} from '../use-cases/station/create-station/create-station-use-case';
 
 export class CreateStationController extends BaseController {
   private useCase: CreateStationUseCase;
@@ -19,7 +19,11 @@ export class CreateStationController extends BaseController {
     try {
       const result = await this.useCase.execute(dto);
 
-      return this.ok(this.res, result);
+      if (result.isSuccess) {
+        return this.ok(this.res, result);
+      }
+
+      return this.handleError(result.error as any);
     } catch (err) {
       return this.fail(err);
     }
@@ -27,5 +31,5 @@ export class CreateStationController extends BaseController {
 }
 
 export const createStationController = new CreateStationController(
-  new CreateStationUseCase(stationRepo)
+  new CreateStationUseCase(stationRepo, cityRepo)
 );

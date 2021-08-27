@@ -9,6 +9,7 @@ import { StationAdapter } from '../adapters/station-adapter';
 export interface IStationRepo extends Repo<Station> {
   findById(id: UniqueEntityID): Promise<Station>;
   removeById(id: UniqueEntityID): Promise<boolean>;
+  findByCityId(cityId: UniqueEntityID): Promise<Station[]>;
 }
 
 export class StationRepo implements IStationRepo {
@@ -18,8 +19,8 @@ export class StationRepo implements IStationRepo {
     this.stationModel = stationModel;
   }
 
-  public async exists(id: UniqueEntityID) {
-    return this.stationModel.exists({ id });
+  public async exists(id: UniqueEntityID | string) {
+    return this.stationModel.exists({ _id: id });
   }
 
   public async save(station: Station) {
@@ -41,6 +42,14 @@ export class StationRepo implements IStationRepo {
     const dbStation = await this.stationModel.findById(id);
 
     return StationAdapter.toDomain(dbStation);
+  }
+
+  public async findByCityId(cityId: UniqueEntityID) {
+    const dbStations = await this.stationModel.find({
+      city: cityId.toString(),
+    });
+
+    return dbStations.map(StationAdapter.toDomain);
   }
 
   public async removeById(id: UniqueEntityID) {

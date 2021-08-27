@@ -6,15 +6,12 @@ import { CityRepo } from '@shypple/modules/booking/repos/city-repo';
 import { Station } from '../../../domain/station';
 import { StationRepo } from '../../../repos/station-repo';
 
-export interface CreateStationDTO {
+export interface GetCityStationsDTO {
   cityId: string;
-  name: string;
-  latitude: number;
-  longitude: number;
 }
 
-export class CreateStationUseCase
-  implements UseCase<CreateStationDTO, Result<Station>>
+export class GetCityStationsUseCase
+  implements UseCase<GetCityStationsDTO, Result<Station[]>>
 {
   private stationRepo: StationRepo;
   private cityRepo: CityRepo;
@@ -24,26 +21,17 @@ export class CreateStationUseCase
     this.cityRepo = cityRepo;
   }
 
-  public async execute(req: CreateStationDTO): Promise<Result<Station>> {
+  public async execute(req: GetCityStationsDTO): Promise<Result<Station[]>> {
     const cityExists = await this.cityRepo.exists(req.cityId);
 
     if (!cityExists) {
       return Result.fail(new NotFoundError('City does not exist.'));
     }
 
-    const stationOrError = Station.create({
-      cityId: new UniqueEntityID(req.cityId),
-      name: req.name,
-      latitude: req.latitude,
-      longitude: req.longitude,
-    });
+    const stations = await this.stationRepo.findByCityId(
+      new UniqueEntityID(req.cityId)
+    );
 
-    if (stationOrError.isFailure) {
-      return Result.fail(stationOrError.errorValue());
-    }
-
-    const dbStation = await this.stationRepo.save(stationOrError.getValue());
-
-    return Result.ok(dbStation);
+    return Result.ok(stations);
   }
 }
