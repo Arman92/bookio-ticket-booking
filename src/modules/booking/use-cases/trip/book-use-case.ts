@@ -1,7 +1,9 @@
+import { differenceInMinutes } from 'date-fns';
+
 import { UniqueEntityID } from '@shypple/core/domain';
 import { UseCase } from '@shypple/core/domain/use-case';
 import { Result } from '@shypple/core/logic';
-import { NotFoundError } from '@shypple/core/logic/api-errors';
+import { ForbiddenError, NotFoundError } from '@shypple/core/logic/api-errors';
 import { Booking } from '../../domain/booking';
 import { StationRepo, TripRepo, BookingRepo, UserRepo } from '../../repos';
 export interface BookDTO {
@@ -37,6 +39,23 @@ export class BookUseCase implements UseCase<BookDTO, Promise<unknown>> {
       return Result.fail(new NotFoundError('Trip entity does not exist.'));
     }
 
+    // Check for reserved bookings, excluding the reservation that same user may have submitted
+    const reservedCount = await this.bookingRepo.getReservedBookingsCount(
+      new UniqueEntityID(tripId),
+      new UniqueEntityID(userId)
+    );
+    if (trip.capacity - reservedCount < seats) {
+      return Result.fail(
+        new ForbiddenError('There is not enough seats in this trip.')
+      );
+    }
+
+    if (differenceInMinutes(trip.departureDate, new Date()) < 30) {
+      return Result.fail(
+        new ForbiddenError('Less than 30 minutes remaining to departure.')
+      );
+    }
+
     const userExists = await this.userRepo.exists(userId);
     if (!userExists) {
       return Result.fail(new NotFoundError('User does not exist.'));
@@ -67,6 +86,13 @@ export class BookUseCase implements UseCase<BookDTO, Promise<unknown>> {
     }
 
     const dbBooking = await this.bookingRepo.save(bookingOrError.getValue());
+    await this.tripRepo.reduceCapacity(trip.id.toString(), seats);
+
+    // Remove the reservation:
+    this.bookingRepo.removeReservation(
+      new UniqueEntityID(tripId),
+      new UniqueEntityID(userId)
+    );
 
     return Result.ok(dbBooking);
   }

@@ -5,6 +5,7 @@ import { Booking } from '../domain/booking';
 import { UniqueEntityID } from '@shypple/core/domain';
 import { IBookingModel } from '@shypple/infra/mongoose/types/booking-type';
 import { BookingAdapter } from '../adapters/booking-adapter';
+import { RedisClient } from '@shypple/infra/redis';
 
 export interface IBookingRepo extends Repo<Booking> {
   findById(id: string): Promise<Booking>;
@@ -70,5 +71,81 @@ export class BookingRepo implements IBookingRepo {
     );
 
     return BookingAdapter.toDomain(updated);
+  }
+
+  public async reserveBooking(
+    tripId: UniqueEntityID,
+    userId: UniqueEntityID,
+    seats: number,
+    seconds: number
+  ): Promise<void> {
+    const key = `trip-${tripId}-reserves`;
+    const member = `${userId}-seats-${seats}`;
+    const regex = /([0-9a-z]*)+(-seats-)(\d+)/g;
+
+    const reservations = await RedisClient.Instance.getSetMembers(key);
+
+    for (const reservation of reservations) {
+      const regResult = regex.exec(reservation);
+      const userId = new UniqueEntityID(regResult[1]);
+      if (userId === userId) {
+        throw new Error('User already has a reservation in this trip.');
+      }
+    }
+
+    await RedisClient.Instance.addToSet(key, member);
+    return RedisClient.Instance.expireMember(key, member, seconds);
+  }
+
+  public async getReservedBookings(tripId: UniqueEntityID) {
+    const reserved = await RedisClient.Instance.getSetMembers(
+      `trip-${tripId}-reserves`
+    );
+    const regex = /([0-9a-z]*)+(-seats-)(\d+)/g;
+
+    const result: {
+      userId: UniqueEntityID;
+      seats: number;
+    }[] = [];
+
+    for (const reservation of reserved) {
+      const regResult = regex.exec(reservation);
+      const userId = new UniqueEntityID(regResult[1]);
+      const seats = parseInt(regResult[3], 10);
+
+      result.push({
+        userId,
+        seats,
+      });
+    }
+
+    return result;
+  }
+
+  public async getReservedBookingsCount(
+    tripId: UniqueEntityID,
+    userIdToExclude?: UniqueEntityID
+  ) {
+    const reservations = await this.getReservedBookings(tripId);
+
+    return reservations.reduce((sum, reservation) => {
+      if (userIdToExclude && userIdToExclude === reservation.userId) return sum;
+      return sum + reservation.seats;
+    }, 0);
+  }
+
+  public async removeReservation(
+    tripId: UniqueEntityID,
+    userId: UniqueEntityID
+  ) {
+    const reservations = await this.getReservedBookings(tripId);
+    const reservation = reservations.find((res) => res.userId.equals(userId));
+
+    if (reservation) {
+      RedisClient.Instance.removeFromSet(
+        `trip-${tripId}-reserves`,
+        `${userId}-seats-${reservation.seats}`
+      );
+    }
   }
 }

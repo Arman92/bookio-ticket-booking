@@ -82,7 +82,7 @@ export class Trip extends Entity<TripProps> {
     ]);
 
     const fareGuard = Guard.inRange(props.fare, 0, Trip.MAX_FARE, 'fare');
-    const capacityRange = Guard.inRange(props.capacity, 1, 1000, 'capacity');
+    const capacityRange = Guard.inRange(props.capacity, 0, 1000, 'capacity');
 
     if (props.arrivalDate <= props.departureDate) {
       return Result.fail('Arrival date should be greater than Departure date.');

@@ -1,4 +1,5 @@
 import express from 'express';
+import { reserveBookingController } from '../../controllers/reserve-booking-controller';
 import { bookController } from '../../controllers/book-controller';
 import { createStationController } from '../../controllers/create-station-controller';
 import { createTripController } from '../../controllers/create-trip-controller';
@@ -32,6 +33,10 @@ tripsRouter.post('/', createTripController.execute.bind(createTripController));
 tripsRouter.get(
   '/search',
   searchTripsController.execute.bind(searchTripsController)
+);
+tripsRouter.post(
+  '/reserve',
+  reserveBookingController.execute.bind(reserveBookingController)
 );
 tripsRouter.post('/book', bookController.execute.bind(bookController));
 tripsRouter.post(

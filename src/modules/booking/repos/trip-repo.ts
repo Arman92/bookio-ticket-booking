@@ -6,6 +6,7 @@ import { Trip } from '../domain/trip';
 import { ITripModel } from '@shypple/infra/mongoose/types/trip-type';
 import { TripAdapter } from '../adapters/trip-adapter';
 import { IStationModel } from '@shypple/infra/mongoose/types/station-type';
+import { bookingRepo } from './';
 
 export interface ITripRepo extends Repo<Trip> {
   findById(id: string): Promise<Trip>;
@@ -45,7 +46,7 @@ export class TripRepo implements ITripRepo {
         fare: trip.fare,
         stops: trip.stops.map((stop) => stop.toString()),
       },
-      { upsert: true, useFindAndModify: false }
+      { upsert: true, useFindAndModify: false, new: true }
     );
 
     return TripAdapter.toDomain(updated);
@@ -65,6 +66,54 @@ export class TripRepo implements ITripRepo {
     } catch {
       return false;
     }
+  }
+
+  public async getCapacity(tripId: UniqueEntityID) {
+    const trip = await this.tripModel.findById(tripId);
+
+    if (trip) {
+      return (
+        trip.capacity - (await bookingRepo.getReservedBookingsCount(tripId))
+      );
+    }
+
+    return 0;
+  }
+
+  public async reduceCapacity(tripId: string, count: number) {
+    const trip = await this.tripModel.findById(tripId);
+
+    if (trip.capacity - count >= 0) {
+      const updated = await this.tripModel.findOneAndUpdate(
+        { _id: trip.id },
+        {
+          $set: {
+            capacity: trip.capacity - count,
+          },
+        },
+        { upsert: true, useFindAndModify: false, new: true }
+      );
+
+      return TripAdapter.toDomain(updated);
+    }
+
+    return null;
+  }
+
+  public async increaseCapacity(tripId: string, count: number) {
+    const trip = await this.tripModel.findById(tripId);
+
+    const updated = await this.tripModel.findOneAndUpdate(
+      { _id: trip.id },
+      {
+        $set: {
+          capacity: trip.capacity + count,
+        },
+      },
+      { upsert: true, useFindAndModify: false, new: true }
+    );
+
+    return TripAdapter.toDomain(updated);
   }
 
   public async search(
@@ -116,7 +165,71 @@ export class TripRepo implements ITripRepo {
         },
       },
       {
+        $lookup: {
+          from: 'cities',
+          localField: 'fromCity',
+          foreignField: '_id',
+          as: 'fromCity',
+        },
+      },
+      {
+        $lookup: {
+          from: 'cities',
+          localField: 'toCity',
+          foreignField: '_id',
+          as: 'toCity',
+        },
+      },
+      {
+        $lookup: {
+          from: 'stations',
+          localField: 'fromStation',
+          foreignField: '_id',
+          as: 'fromStation',
+        },
+      },
+      {
+        $lookup: {
+          from: 'stations',
+          localField: 'toStation',
+          foreignField: '_id',
+          as: 'toStation',
+        },
+      },
+      {
+        $lookup: {
+          from: 'transportvehicles',
+          localField: 'transportVehicle',
+          foreignField: '_id',
+          as: 'transportVehicle',
+        },
+      },
+      {
         ...sort,
+      },
+      {
+        $project: {
+          __v: 0,
+          fromCity: { createdAt: 0, updatedAt: 0, __v: 0 },
+          fromStation: { createdAt: 0, updatedAt: 0, __v: 0 },
+          toCity: { createdAt: 0, updatedAt: 0, __v: 0 },
+          toStation: { createdAt: 0, updatedAt: 0, __v: 0 },
+          transportVehicle: { createdAt: 0, updatedAt: 0, __v: 0 },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          arrivalDate: 1,
+          departureDate: 1,
+          fare: 1,
+          capacity: 1,
+          fromCity: { $first: '$fromCity' },
+          fromStation: { $first: '$fromStation' },
+          toCity: { $first: '$toCity' },
+          toStation: { $first: '$toStation' },
+          transportVehicle: { $first: '$transportVehicle' },
+        },
       },
     ]);
 
