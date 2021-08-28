@@ -29,6 +29,16 @@ services:
     networks:
       - app-network
 
+  redis:
+    image: eqalpha/keydb:alpine
+    container_name: shypple-redis-dev
+    volumes:
+      - ./docker-volumes/redis:/data
+    restart: "always"
+    networks:
+      - app-network
+
+
 networks:
   app-network:
     name: shypple-network
