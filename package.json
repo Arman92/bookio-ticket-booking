@@ -7,7 +7,6 @@
   "author": "Arman Safikhani <arman1371@gmail.com>",
   "license": "MIT",
   "private": true,
-
   "scripts": {
     "prebuild": "eslint '*/**/*.{js,ts}' --quiet --fix",
     "build": "rm -rf ./build && tsc",
@@ -19,8 +18,8 @@
     "coverage": "jest --coverage",
     "lint": "eslint '*/**/*.{js,ts}' --quiet --fix"
   },
-
   "dependencies": {
+    "@types/redis": "^2.8.31",
     "app-root-path": "^3.0.0",
     "bcryptjs": "^2.4.3",
     "chai": "^4.3.4",
@@ -38,6 +37,7 @@
     "mongoose": "^5.13.0",
     "mongoose-autopopulate": "^0.14.0",
     "morgan": "^1.10.0",
+    "redis": "^3.1.2",
     "socket.io": "^4.1.2",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.4",

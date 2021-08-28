@@ -37,6 +37,14 @@ services:
     ports:
       - '27020:27017'
 
+  redis-dev:
+    image: redis:6-alpine
+    volumes:
+      - ./docker-volumes/redis:/data
+    restart: "always"
+    networks:
+      - app-network
+
 networks:
   app-network:
     name: shypple-network
