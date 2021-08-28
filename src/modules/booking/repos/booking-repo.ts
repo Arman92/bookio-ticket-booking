@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 import { Repo } from '@shypple/core/infra/Repo';
 import { Booking } from '../domain/booking';
@@ -95,6 +95,26 @@ export class BookingRepo implements IBookingRepo {
 
     await RedisClient.Instance.addToSet(key, member);
     return RedisClient.Instance.expireMember(key, member, seconds);
+  }
+
+  public async getBookingsReportByTrip(tripId: UniqueEntityID) {
+    return (
+      await this.bookingModel.aggregate([
+        { $match: { trip: Types.ObjectId(tripId.toString()) } },
+        {
+          $group: {
+            _id: '$trip',
+            totalFare: { $sum: '$totalFare' },
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+          },
+        },
+      ])
+    )[0];
   }
 
   public async getReservedBookings(tripId: UniqueEntityID) {

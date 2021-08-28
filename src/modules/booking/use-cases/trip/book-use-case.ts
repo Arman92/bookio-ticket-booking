@@ -78,7 +78,7 @@ export class BookUseCase implements UseCase<BookDTO, Promise<unknown>> {
       seats,
       fare: trip.fare,
       totalFare: seats * trip.fare, // TODO: Maybe add some discounts if applicable
-      destinationStation: destinationStationId,
+      destinationStation: destinationStationId || trip.toStationId,
     });
 
     if (bookingOrError.isFailure) {

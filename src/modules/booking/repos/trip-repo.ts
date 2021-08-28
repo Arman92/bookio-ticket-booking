@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 import { Repo } from '@shypple/core/infra/Repo';
 import { UniqueEntityID } from '@shypple/core/domain';
@@ -147,8 +147,8 @@ export class TripRepo implements ITripRepo {
     const dbTrip = await this.tripModel.aggregate([
       {
         $match: {
-          fromCity: fromCityId,
-          toCity: toCityId,
+          fromCity: Types.ObjectId(fromCityId.toString()),
+          toCity: Types.ObjectId(toCityId.toString()),
           departureDate: { $gte: departureDate },
           ...arrivalCriteria,
         },

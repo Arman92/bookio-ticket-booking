@@ -1,4 +1,4 @@
-import { isValid } from 'date-fns';
+import { isValid as isValidDate } from 'date-fns';
 
 import { UseCase } from '@shypple/core/domain/use-case';
 import { Result } from '@shypple/core/logic';
@@ -40,17 +40,14 @@ export class SearchTripsUseCase
 
     if (
       !req.departureDate ||
-      !isValid(req.departureDate)
-      // || req.departureDate < new Date()
+      !isValidDate(req.departureDate) ||
+      req.departureDate < new Date()
     ) {
       return Result.fail(new UserInputError('Departure date is invalid.'));
     }
 
     if (req.arrivalDate) {
-      if (
-        !isValid(req.arrivalDate)
-        // || req.arrivalDate < new Date()
-      ) {
+      if (!isValidDate(req.arrivalDate) || req.arrivalDate < new Date()) {
         return Result.fail(new UserInputError('Arrival date is invalid.'));
       }
     }
