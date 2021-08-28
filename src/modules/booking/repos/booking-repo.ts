@@ -8,8 +8,8 @@ import { BookingAdapter } from '../adapters/booking-adapter';
 import { RedisClient } from '@shypple/infra/redis';
 
 export interface IBookingRepo extends Repo<Booking> {
-  findById(id: string): Promise<Booking>;
-  removeById(id: string): Promise<boolean>;
+  findById(id: UniqueEntityID): Promise<Booking>;
+  removeById(id: UniqueEntityID): Promise<boolean>;
 }
 
 export class BookingRepo implements IBookingRepo {
@@ -42,15 +42,15 @@ export class BookingRepo implements IBookingRepo {
     return BookingAdapter.toDomain(updated);
   }
 
-  public async findById(id: string) {
+  public async findById(id: UniqueEntityID) {
     const dbBooking = await this.bookingModel.findById(id);
 
     return BookingAdapter.toDomain(dbBooking);
   }
 
-  public async removeById(id: string) {
+  public async removeById(id: UniqueEntityID) {
     try {
-      const res = await this.bookingModel.remove({ id });
+      const res = await this.bookingModel.remove({ _id: id });
 
       return res.deletedCount === 1;
     } catch {
@@ -58,7 +58,7 @@ export class BookingRepo implements IBookingRepo {
     }
   }
 
-  public async cancelBooking(bookingId: string, reason: string) {
+  public async cancelBooking(bookingId: UniqueEntityID, reason: string) {
     const updated = await this.bookingModel.findOneAndUpdate(
       { _id: bookingId },
       {

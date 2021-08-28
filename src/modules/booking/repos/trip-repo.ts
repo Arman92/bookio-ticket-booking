@@ -1,4 +1,4 @@
-import mongoose, { Types } from 'mongoose';
+import mongoose from 'mongoose';
 
 import { Repo } from '@shypple/core/infra/Repo';
 import { UniqueEntityID } from '@shypple/core/domain';
@@ -9,8 +9,8 @@ import { IStationModel } from '@shypple/infra/mongoose/types/station-type';
 import { bookingRepo } from './';
 
 export interface ITripRepo extends Repo<Trip> {
-  findById(id: string): Promise<Trip>;
-  removeById(id: string): Promise<boolean>;
+  findById(id: UniqueEntityID): Promise<Trip>;
+  removeById(id: UniqueEntityID): Promise<boolean>;
 }
 
 export class TripRepo implements ITripRepo {
@@ -52,15 +52,15 @@ export class TripRepo implements ITripRepo {
     return TripAdapter.toDomain(updated);
   }
 
-  public async findById(id: string) {
+  public async findById(id: UniqueEntityID) {
     const dbTrip = await this.tripModel.findById(id);
 
     return TripAdapter.toDomain(dbTrip);
   }
 
-  public async removeById(id: string) {
+  public async removeById(id: UniqueEntityID) {
     try {
-      const res = await this.tripModel.remove({ id });
+      const res = await this.tripModel.remove({ _id: id });
 
       return res.deletedCount === 1;
     } catch {
@@ -80,7 +80,7 @@ export class TripRepo implements ITripRepo {
     return 0;
   }
 
-  public async reduceCapacity(tripId: string, count: number) {
+  public async reduceCapacity(tripId: UniqueEntityID, count: number) {
     const trip = await this.tripModel.findById(tripId);
 
     if (trip.capacity - count >= 0) {
@@ -100,7 +100,7 @@ export class TripRepo implements ITripRepo {
     return null;
   }
 
-  public async increaseCapacity(tripId: string, count: number) {
+  public async increaseCapacity(tripId: UniqueEntityID, count: number) {
     const trip = await this.tripModel.findById(tripId);
 
     const updated = await this.tripModel.findOneAndUpdate(
@@ -117,8 +117,8 @@ export class TripRepo implements ITripRepo {
   }
 
   public async search(
-    fromCityId: string,
-    toCityId: string,
+    fromCityId: UniqueEntityID,
+    toCityId: UniqueEntityID,
     departureDate: Date,
     arrivalDate?: Date,
     sortBy: 'fare' | 'duration' | 'departureDate' = 'fare'
@@ -147,8 +147,8 @@ export class TripRepo implements ITripRepo {
     const dbTrip = await this.tripModel.aggregate([
       {
         $match: {
-          fromCity: new Types.ObjectId(fromCityId),
-          toCity: new Types.ObjectId(toCityId),
+          fromCity: fromCityId,
+          toCity: toCityId,
           departureDate: { $gte: departureDate },
           ...arrivalCriteria,
         },

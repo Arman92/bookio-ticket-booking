@@ -57,7 +57,7 @@ export class TransportVehicleRepo implements ITransportVehicleRepo {
 
   public async removeById(id: UniqueEntityID) {
     try {
-      const res = await this.transportVehicleModel.remove({ id });
+      const res = await this.transportVehicleModel.remove({ _id: id });
 
       return res.deletedCount === 1;
     } catch {

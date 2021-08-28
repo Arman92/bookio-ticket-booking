@@ -10,13 +10,13 @@ import {
 import { Trip } from '../../domain/trip';
 
 export interface CreateTripDTO {
-  fromStationId: string;
-  toStationId: string;
-  transportVehicleId: string;
+  fromStationId: UniqueEntityID;
+  toStationId: UniqueEntityID;
+  transportVehicleId: UniqueEntityID;
   departureDate: string;
   arrivalDate: string;
   fare: number;
-  stops?: string[];
+  stops?: UniqueEntityID[];
 }
 
 export class CreateTripUseCase implements UseCase<CreateTripDTO, Result<Trip>> {
@@ -47,7 +47,7 @@ export class CreateTripUseCase implements UseCase<CreateTripDTO, Result<Trip>> {
     }
 
     const transportVehicle = await this.transportVehicleRepo.findById(
-      new UniqueEntityID(req.transportVehicleId)
+      req.transportVehicleId
     );
 
     if (!transportVehicle) {
@@ -57,17 +57,14 @@ export class CreateTripUseCase implements UseCase<CreateTripDTO, Result<Trip>> {
     }
 
     const tripOrError = Trip.create({
-      fromStationId: new UniqueEntityID(req.fromStationId),
-      toStationId: new UniqueEntityID(req.toStationId),
-      transportVehicleId: new UniqueEntityID(req.transportVehicleId),
+      fromStationId: req.fromStationId,
+      toStationId: req.toStationId,
+      transportVehicleId: req.transportVehicleId,
       departureDate: new Date(req.departureDate),
       arrivalDate: new Date(req.arrivalDate),
       fare: req.fare,
       capacity: transportVehicle.capacity,
-      stops:
-        req.stops && req.stops.length
-          ? req.stops.map((stop) => new UniqueEntityID(stop))
-          : [],
+      stops: req.stops,
     });
 
     if (tripOrError.isFailure) {

@@ -1,3 +1,4 @@
+import { UniqueEntityID } from '@shypple/core/domain';
 import { BaseController } from '@shypple/core/infra/BaseController';
 import { tripRepo, cityRepo } from '../repos';
 import {
@@ -19,8 +20,8 @@ export class SearchTripsController extends BaseController {
     };
 
     const dto: SearchTripDTO = {
-      fromCityId: from,
-      toCityId: to,
+      fromCityId: new UniqueEntityID(from),
+      toCityId: new UniqueEntityID(to),
       departureDate: new Date(departure),
       arrivalDate: arrival ? new Date(arrival) : undefined,
       sortBy: sortBy as SearchTripDTO['sortBy'],

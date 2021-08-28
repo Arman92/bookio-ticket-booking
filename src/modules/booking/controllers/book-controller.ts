@@ -1,3 +1,4 @@
+import { UniqueEntityID } from '@shypple/core/domain';
 import { BaseController } from '@shypple/core/infra/BaseController';
 import { bookingRepo, stationRepo, tripRepo, userRepo } from '../repos';
 import { BookDTO, BookUseCase } from '../use-cases/trip/book-use-case';
@@ -11,7 +12,15 @@ export class BookController extends BaseController {
   }
 
   async executeImpl(): Promise<unknown> {
-    const dto: BookDTO = this.req.body as BookDTO;
+    const { tripId, userId, seats, destinationStationId } = this.req.body;
+    const dto: BookDTO = {
+      tripId: new UniqueEntityID(tripId),
+      userId: new UniqueEntityID(userId),
+      destinationStationId: destinationStationId
+        ? new UniqueEntityID(destinationStationId)
+        : undefined,
+      seats,
+    };
 
     try {
       const result = await this.useCase.execute(dto);

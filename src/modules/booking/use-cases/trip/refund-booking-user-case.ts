@@ -5,10 +5,11 @@ import { Result } from '@shypple/core/logic';
 import { ForbiddenError, NotFoundError } from '@shypple/core/logic/api-errors';
 import { Booking } from '../../domain/booking';
 import { TripRepo, BookingRepo, UserRepo } from '../../repos';
+import { UniqueEntityID } from '@shypple/core/domain';
 
 export interface RefundBookingDTO {
-  bookingId: string;
-  userId: string;
+  bookingId: UniqueEntityID;
+  userId: UniqueEntityID;
   reason?: string;
 }
 
@@ -37,7 +38,7 @@ export class RefundBookingUseCase
       return Result.fail(new NotFoundError('Booking entity does not exist.'));
     }
 
-    const trip = await this.tripRepo.findById(booking.tripId.toString());
+    const trip = await this.tripRepo.findById(booking.tripId);
     if (!trip) {
       return Result.fail(new NotFoundError('Trip entity does not exist.'));
     }
@@ -53,12 +54,9 @@ export class RefundBookingUseCase
       return Result.fail(new NotFoundError('User does not exist.'));
     }
 
-    const dbBooking = await this.bookingRepo.cancelBooking(
-      booking.id.toString(),
-      reason
-    );
+    const dbBooking = await this.bookingRepo.cancelBooking(booking.id, reason);
 
-    await this.tripRepo.increaseCapacity(trip.id.toString(), booking.seats);
+    await this.tripRepo.increaseCapacity(trip.id, booking.seats);
 
     return Result.ok(dbBooking);
   }

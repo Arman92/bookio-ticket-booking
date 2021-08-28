@@ -7,10 +7,10 @@ import { ForbiddenError, NotFoundError } from '@shypple/core/logic/api-errors';
 import { Booking } from '../../domain/booking';
 import { StationRepo, TripRepo, BookingRepo, UserRepo } from '../../repos';
 export interface BookDTO {
-  tripId: string;
-  userId: string;
+  tripId: UniqueEntityID;
+  userId: UniqueEntityID;
   seats: number;
-  destinationStationId?: string;
+  destinationStationId?: UniqueEntityID;
 }
 
 export class BookUseCase implements UseCase<BookDTO, Promise<unknown>> {
@@ -41,8 +41,8 @@ export class BookUseCase implements UseCase<BookDTO, Promise<unknown>> {
 
     // Check for reserved bookings, excluding the reservation that same user may have submitted
     const reservedCount = await this.bookingRepo.getReservedBookingsCount(
-      new UniqueEntityID(tripId),
-      new UniqueEntityID(userId)
+      tripId,
+      userId
     );
     if (trip.capacity - reservedCount < seats) {
       return Result.fail(
@@ -73,12 +73,12 @@ export class BookUseCase implements UseCase<BookDTO, Promise<unknown>> {
     }
 
     const bookingOrError = Booking.create({
-      tripId: new UniqueEntityID(tripId),
-      userId: new UniqueEntityID(userId),
+      tripId: tripId,
+      userId: userId,
       seats,
       fare: trip.fare,
       totalFare: seats * trip.fare, // TODO: Maybe add some discounts if applicable
-      destinationStation: new UniqueEntityID(destinationStationId),
+      destinationStation: destinationStationId,
     });
 
     if (bookingOrError.isFailure) {
@@ -86,13 +86,10 @@ export class BookUseCase implements UseCase<BookDTO, Promise<unknown>> {
     }
 
     const dbBooking = await this.bookingRepo.save(bookingOrError.getValue());
-    await this.tripRepo.reduceCapacity(trip.id.toString(), seats);
+    await this.tripRepo.reduceCapacity(trip.id, seats);
 
     // Remove the reservation:
-    this.bookingRepo.removeReservation(
-      new UniqueEntityID(tripId),
-      new UniqueEntityID(userId)
-    );
+    this.bookingRepo.removeReservation(tripId, userId);
 
     return Result.ok(dbBooking);
   }

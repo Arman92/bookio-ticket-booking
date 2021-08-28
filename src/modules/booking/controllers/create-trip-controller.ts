@@ -1,3 +1,4 @@
+import { UniqueEntityID } from '@shypple/core/domain';
 import { BaseController } from '@shypple/core/infra/BaseController';
 import { tripRepo, stationRepo, transportVehicleRepo } from '../repos';
 import {
@@ -14,7 +15,28 @@ export class CreateTripController extends BaseController {
   }
 
   async executeImpl(): Promise<unknown> {
-    const dto: CreateTripDTO = this.req.body as CreateTripDTO;
+    const {
+      fromStationId,
+      toStationId,
+      transportVehicleId,
+      departureDate,
+      arrivalDate,
+      fare,
+      stops,
+    } = this.req.body;
+
+    const dto: CreateTripDTO = {
+      fromStationId: new UniqueEntityID(fromStationId),
+      toStationId: new UniqueEntityID(toStationId),
+      transportVehicleId: new UniqueEntityID(transportVehicleId),
+      departureDate,
+      arrivalDate,
+      fare,
+      stops:
+        stops && stops.length
+          ? stops.map((stop: string) => new UniqueEntityID(stop))
+          : undefined,
+    };
 
     try {
       const result = await this.useCase.execute(dto);

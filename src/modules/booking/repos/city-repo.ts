@@ -42,7 +42,7 @@ export class CityRepo implements ICityRepo {
 
   public async removeById(id: UniqueEntityID) {
     try {
-      const res = await this.cityModel.remove({ id });
+      const res = await this.cityModel.remove({ _id: id });
 
       return res.deletedCount === 1;
     } catch {

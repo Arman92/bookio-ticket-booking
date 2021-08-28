@@ -7,8 +7,8 @@ import { Booking } from '../../domain/booking';
 import { TripRepo, BookingRepo, UserRepo } from '../../repos';
 import { UniqueEntityID } from '@shypple/core/domain';
 export interface ReserveBookingDTO {
-  tripId: string;
-  userId: string;
+  tripId: UniqueEntityID;
+  userId: UniqueEntityID;
   seats: number;
 }
 
@@ -39,7 +39,7 @@ export class ReserveBookingUseCase
     }
 
     const reservedCount = await this.bookingRepo.getReservedBookingsCount(
-      new UniqueEntityID(tripId)
+      tripId
     );
     if (trip.capacity - reservedCount < seats) {
       return Result.fail(

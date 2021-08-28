@@ -1,3 +1,4 @@
+import { UniqueEntityID } from '@shypple/core/domain';
 import { BaseController } from '@shypple/core/infra/BaseController';
 import { cityRepo, stationRepo } from '../repos';
 import {
@@ -14,7 +15,14 @@ export class CreateStationController extends BaseController {
   }
 
   async executeImpl(): Promise<unknown> {
-    const dto: CreateStationDTO = this.req.body as CreateStationDTO;
+    const { cityId, name, latitude, longitude } = this.req.body;
+
+    const dto: CreateStationDTO = {
+      cityId: new UniqueEntityID(cityId),
+      name,
+      latitude,
+      longitude,
+    };
 
     try {
       const result = await this.useCase.execute(dto);

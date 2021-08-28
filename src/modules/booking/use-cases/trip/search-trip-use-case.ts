@@ -5,10 +5,11 @@ import { Result } from '@shypple/core/logic';
 import { NotFoundError, UserInputError } from '@shypple/core/logic/api-errors';
 import { TripRepo, CityRepo } from '@shypple/modules/booking/repos';
 import { Trip } from '../../domain/trip';
+import { UniqueEntityID } from '@shypple/core/domain';
 
 export interface SearchTripDTO {
-  fromCityId: string;
-  toCityId: string;
+  fromCityId: UniqueEntityID;
+  toCityId: UniqueEntityID;
   departureDate: Date;
   arrivalDate?: Date;
   sortBy?: 'fare' | 'duration' | 'departureDate';

@@ -7,7 +7,7 @@ import { Station } from '../../domain/station';
 import { StationRepo } from '../../repos/station-repo';
 
 export interface CreateStationDTO {
-  cityId: string;
+  cityId: UniqueEntityID;
   name: string;
   latitude: number;
   longitude: number;
@@ -32,7 +32,7 @@ export class CreateStationUseCase
     }
 
     const stationOrError = Station.create({
-      cityId: new UniqueEntityID(req.cityId),
+      cityId: req.cityId,
       name: req.name,
       latitude: req.latitude,
       longitude: req.longitude,

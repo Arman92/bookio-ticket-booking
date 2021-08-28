@@ -1,3 +1,4 @@
+import { UniqueEntityID } from '@shypple/core/domain';
 import { UseCase } from '@shypple/core/domain/use-case';
 import { Result } from '@shypple/core/logic';
 import { NotFoundError } from '@shypple/core/logic/api-errors';
@@ -6,7 +7,7 @@ import { Station } from '../../domain/station';
 import { StationRepo } from '../../repos';
 
 export interface GetCityStationsDTO {
-  cityId: string;
+  cityId: UniqueEntityID;
 }
 
 export class GetCityStationsUseCase
