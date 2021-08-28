@@ -38,7 +38,7 @@ services:
       - '27020:27017'
 
   redis-dev:
-    image: redis:6-alpine
+    image: eqalpha/keydb:alpine
     container_name: shypple-redis-dev
     volumes:
       - ./docker-volumes/redis:/data

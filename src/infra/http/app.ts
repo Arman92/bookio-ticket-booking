@@ -6,7 +6,6 @@ import config from '@shypple/config';
 import log, { customLogStream } from '@shypple/shared/log';
 import { errorHandlerMiddleware } from '@shypple/shared/middleware/error-handler';
 import { v1Router } from './api/v1';
-import { Redis } from '@shypple/infra/redis';
 
 const server = express();
 // In case we are behind something like NGinx and we want to trust the https connections coming from it.
@@ -48,9 +47,6 @@ server.use(
     limit: '1mb',
   })
 );
-
-const aa = Redis.Instance;
-log.info(aa);
 
 // Enable HTTP logger if enabled
 if (config.log.morgan.enabled) {
