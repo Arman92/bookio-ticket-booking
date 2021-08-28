@@ -5,7 +5,6 @@ import config from '@shypple/config';
 
 export class Redis {
   private static instance: Redis;
-  private initialized = false;
   private client: RedisClient;
 
   static get Instance() {
@@ -17,11 +16,7 @@ export class Redis {
     return this.instance;
   }
 
-  init() {
-    // Already initialized
-    if (this.initialized === true) return;
-    this.initialized = true;
-
+  private init() {
     this.client = createClient(Redis.getRedisClientOptions());
 
     this.client.on('error', (err) => {
