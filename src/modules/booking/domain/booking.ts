@@ -47,8 +47,16 @@ export class Booking extends Entity<BookingProps> {
     id?: UniqueEntityID
   ): Result<Booking> {
     const guardResult = Guard.againstNullOrUndefinedBulk([
-      { argument: props.tripId, argumentName: 'tripId' },
-      { argument: props.userId, argumentName: 'userId' },
+      {
+        argument: props.tripId,
+        argumentName: 'tripId',
+        guardEmptyString: true,
+      },
+      {
+        argument: props.userId,
+        argumentName: 'userId',
+        guardEmptyString: true,
+      },
       { argument: props.seats, argumentName: 'seats' },
       { argument: props.fare, argumentName: 'fare' },
       { argument: props.totalFare, argumentName: 'totalFare' },

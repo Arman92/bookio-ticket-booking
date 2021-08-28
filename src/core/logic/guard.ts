@@ -6,6 +6,7 @@ export interface IGuardResult {
 export interface IGuardArgument {
   argument: unknown;
   argumentName: string;
+  guardEmptyString?: boolean;
 }
 
 export type GuardArgumentCollection = IGuardArgument[];
@@ -21,12 +22,19 @@ export class Guard {
 
   public static againstNullOrUndefined(
     argument: unknown,
-    argumentName: string
+    argumentName: string,
+    guardEmptyString?: boolean
   ): IGuardResult {
-    if (argument === null || argument === undefined) {
+    if (
+      argument === null ||
+      argument === undefined ||
+      (guardEmptyString && argument === '')
+    ) {
       return {
         succeeded: false,
-        message: `${argumentName} is null or undefined`,
+        message: `${argumentName} is null or undefined${
+          guardEmptyString ? ' or empty string.' : ''
+        }`,
       };
     } else {
       return { succeeded: true };
@@ -39,7 +47,8 @@ export class Guard {
     for (const arg of args) {
       const result = this.againstNullOrUndefined(
         arg.argument,
-        arg.argumentName
+        arg.argumentName,
+        arg.guardEmptyString
       );
       if (!result.succeeded) return result;
     }

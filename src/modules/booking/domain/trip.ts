@@ -54,11 +54,20 @@ export class Trip extends Entity<TripProps> {
 
   public static create(props: TripProps, id?: UniqueEntityID): Result<Trip> {
     const guardResult = Guard.againstNullOrUndefinedBulk([
-      { argument: props.fromStationId, argumentName: 'fromStationId' },
-      { argument: props.toStationId, argumentName: 'toStationId' },
+      {
+        argument: props.fromStationId,
+        argumentName: 'fromStationId',
+        guardEmptyString: true,
+      },
+      {
+        argument: props.toStationId,
+        argumentName: 'toStationId',
+        guardEmptyString: true,
+      },
       {
         argument: props.transportVehicleId,
         argumentName: 'transportVehicleId',
+        guardEmptyString: true,
       },
       {
         argument: props.departureDate,

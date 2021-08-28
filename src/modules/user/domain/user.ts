@@ -31,10 +31,18 @@ export class User extends Entity<UserProps> {
 
   public static create(props: UserProps, id?: UniqueEntityID): Result<User> {
     const guardResult = Guard.againstNullOrUndefinedBulk([
-      { argument: props.name, argumentName: 'name' },
-      { argument: props.email, argumentName: 'email' },
-      { argument: props.username, argumentName: 'username' },
-      { argument: props.password, argumentName: 'password' },
+      { argument: props.name, argumentName: 'name', guardEmptyString: true },
+      { argument: props.email, argumentName: 'email', guardEmptyString: true },
+      {
+        argument: props.username,
+        argumentName: 'username',
+        guardEmptyString: true,
+      },
+      {
+        argument: props.password,
+        argumentName: 'password',
+        guardEmptyString: true,
+      },
     ]);
 
     if (!guardResult.succeeded) {

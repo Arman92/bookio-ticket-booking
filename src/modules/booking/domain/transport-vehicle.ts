@@ -40,7 +40,7 @@ export class TransportVehicle extends Entity<TransportVehicleProps> {
     id?: UniqueEntityID
   ): Result<TransportVehicle> {
     const guardResult = Guard.againstNullOrUndefinedBulk([
-      { argument: props.name, argumentName: 'name' },
+      { argument: props.name, argumentName: 'name', guardEmptyString: true },
       { argument: props.type, argumentName: 'type' },
       { argument: props.capacity, argumentName: 'capacity' },
     ]);

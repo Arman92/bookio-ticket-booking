@@ -34,8 +34,12 @@ export class Station extends Entity<StationProps> {
     id?: UniqueEntityID
   ): Result<Station> {
     const guardResult = Guard.againstNullOrUndefinedBulk([
-      { argument: props.cityId, argumentName: 'cityId' },
-      { argument: props.name, argumentName: 'name' },
+      {
+        argument: props.cityId,
+        argumentName: 'cityId',
+        guardEmptyString: true,
+      },
+      { argument: props.name, argumentName: 'name', guardEmptyString: true },
       { argument: props.latitude, argumentName: 'latitude' },
       { argument: props.longitude, argumentName: 'longitude' },
     ]);

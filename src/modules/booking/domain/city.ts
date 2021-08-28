@@ -16,7 +16,7 @@ export class City extends Entity<CityProps> {
 
   public static create(props: CityProps, id?: UniqueEntityID): Result<City> {
     const guardResult = Guard.againstNullOrUndefinedBulk([
-      { argument: props.name, argumentName: 'name' },
+      { argument: props.name, argumentName: 'name', guardEmptyString: true },
     ]);
 
     if (!guardResult.succeeded) {
