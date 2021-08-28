@@ -17,7 +17,7 @@ const stationRepo = new StationRepo(StationModel);
 const cityRepo = new CityRepo(CityModel);
 const tripRepo = new TripRepo(TripModel, StationModel);
 const transportVehicleRepo = new TransportVehicleRepo(TransportVehicleModel);
-const bookingRepo = new BookingRepo(BookingModel);
+const bookingRepo = new BookingRepo(BookingModel, TripModel);
 const userRepo = new UserRepo(UserModel);
 
 export {

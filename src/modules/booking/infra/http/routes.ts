@@ -8,6 +8,7 @@ import { refundBookingController } from '../../controllers/refund-booking-contro
 import { searchCitiesController } from '../../controllers/search-cities-controller';
 import { searchTripsController } from '../../controllers/search-trip-controller';
 import { reportTripBookingController } from '../../controllers/report-trip-bookings-controller';
+import { reportBookingsByDepartureController } from '../../controllers/report-trip-bookings-by-departure-controller';
 
 const stationsRouter = express.Router();
 const citiesRouter = express.Router();
@@ -49,6 +50,12 @@ tripsRouter.post(
 tripsRouter.get(
   '/report-by-trip',
   reportTripBookingController.execute.bind(reportTripBookingController)
+);
+tripsRouter.get(
+  '/report-by-departure',
+  reportBookingsByDepartureController.execute.bind(
+    reportBookingsByDepartureController
+  )
 );
 
 export { stationsRouter, citiesRouter, tripsRouter };

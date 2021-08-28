@@ -6,6 +6,7 @@ import { UniqueEntityID } from '@shypple/core/domain';
 import { IBookingModel } from '@shypple/infra/mongoose/types/booking-type';
 import { BookingAdapter } from '../adapters/booking-adapter';
 import { RedisClient } from '@shypple/infra/redis';
+import { ITripModel } from '@shypple/infra/mongoose/types/trip-type';
 
 export interface IBookingRepo extends Repo<Booking> {
   findById(id: UniqueEntityID): Promise<Booking>;
@@ -14,9 +15,14 @@ export interface IBookingRepo extends Repo<Booking> {
 
 export class BookingRepo implements IBookingRepo {
   private bookingModel: mongoose.Model<IBookingModel>;
+  private tripModel: mongoose.Model<ITripModel>;
 
-  constructor(bookingModel: mongoose.Model<IBookingModel>) {
+  constructor(
+    bookingModel: mongoose.Model<IBookingModel>,
+    tripModel: mongoose.Model<ITripModel>
+  ) {
     this.bookingModel = bookingModel;
+    this.tripModel = tripModel;
   }
 
   public async exists(id: UniqueEntityID | string) {
@@ -115,6 +121,53 @@ export class BookingRepo implements IBookingRepo {
         },
       ])
     )[0];
+  }
+
+  public async getBookingsReportByDepartureCity(cityId: UniqueEntityID) {
+    return await this.tripModel.aggregate([
+      { $match: { fromCity: Types.ObjectId(cityId.toString()) } },
+      {
+        $lookup: {
+          from: 'bookings',
+          localField: '_id',
+          foreignField: 'trip',
+          as: 'booking',
+        },
+      },
+      {
+        $unwind: '$booking',
+      },
+      {
+        $replaceRoot: {
+          newRoot: '$booking',
+        },
+      },
+      {
+        $group: {
+          _id: '$trip',
+          totalFare: { $sum: '$totalFare' },
+          seatsSold: { $sum: '$seats' },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          trip: '$_id',
+          totalFare: 1,
+          seatsSold: 1,
+          count: 1,
+        },
+      },
+      {
+        $lookup: {
+          from: 'trips',
+          localField: 'trip',
+          foreignField: '_id',
+          as: 'trip',
+        },
+      },
+    ]);
   }
 
   public async getReservedBookings(tripId: UniqueEntityID) {
