@@ -38,9 +38,9 @@ export class UserRepo implements IUserRepo {
   }
 
   public async findById(id: string) {
-    const db-user = await this.userModel.findById(id);
+    const dbUser = await this.userModel.findById(id);
 
-    return UserAdapter.toDomain(db-user);
+    return UserAdapter.toDomain(dbUser);
   }
 
   public async removeById(id: string) {
