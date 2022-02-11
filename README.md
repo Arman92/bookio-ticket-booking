@@ -1,9 +1,10 @@
 
 [![Node.js CI](https://github.com/Arman92/bookio-ticket-booking/actions/workflows/node.js.yml/badge.svg)](https://github.com/Arman92/bookio-ticket-booking/actions/workflows/node.js.yml)
 
+# What is Bookio?
+Imaginary service for booking tickets
 
-# bookio-ticket-booking
-Ticket booking backend service for Bookio backend interview
+This repository is an attempt to implement "Clean Architecture" (aka Onion Architecture) for a basic usecase, booking bus tickets.
 
 ## Installation
 ```bash
