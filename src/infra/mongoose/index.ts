@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import log from '@shypple/shared/log';
+import log from '@bookio/shared/log';
 
 import { dbURI, mongoDbOptions } from './config';
 import { CityModel } from './models';

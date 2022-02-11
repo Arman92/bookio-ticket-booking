@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
-import { Repo } from '@shypple/core/infra/Repo';
-import { UniqueEntityID } from '@shypple/core/domain';
+import { Repo } from '@bookio/core/infra/Repo';
+import { UniqueEntityID } from '@bookio/core/domain';
 import { User } from '../domain/user';
-import { IUserModel } from '@shypple/infra/mongoose/types/user-type';
+import { IUserModel } from '@bookio/infra/mongoose/types/user-type';
 import { UserAdapter } from '../adapters/user-adapter';
 
 export interface IUserRepo extends Repo<User> {

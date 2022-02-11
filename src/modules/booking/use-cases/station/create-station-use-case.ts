@@ -1,8 +1,8 @@
-import { UniqueEntityID } from '@shypple/core/domain';
-import { UseCase } from '@shypple/core/domain/use-case';
-import { Result } from '@shypple/core/logic';
-import { NotFoundError } from '@shypple/core/logic/api-errors';
-import { CityRepo } from '@shypple/modules/booking/repos/city-repo';
+import { UniqueEntityID } from '@bookio/core/domain';
+import { UseCase } from '@bookio/core/domain/use-case';
+import { Result } from '@bookio/core/logic';
+import { NotFoundError } from '@bookio/core/logic/api-errors';
+import { CityRepo } from '@bookio/modules/booking/repos/city-repo';
 import { Station } from '../../domain/station';
 import { StationRepo } from '../../repos/station-repo';
 

@@ -1,4 +1,4 @@
-import { BaseController } from '@shypple/core/infra/BaseController';
+import { BaseController } from '@bookio/core/infra/BaseController';
 import { cityRepo } from '../repos';
 import {
   SearchCitiesDTO,

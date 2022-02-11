@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '@shypple/core/domain';
-import { BaseController } from '@shypple/core/infra/BaseController';
+import { UniqueEntityID } from '@bookio/core/domain';
+import { BaseController } from '@bookio/core/infra/BaseController';
 import { tripRepo, cityRepo } from '../repos';
 import {
   SearchTripDTO,

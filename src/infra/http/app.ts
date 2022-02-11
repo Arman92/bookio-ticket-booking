@@ -2,9 +2,9 @@ import morgan from 'morgan';
 import express from 'express';
 import cors from 'cors';
 
-import config from '@shypple/config';
-import log, { customLogStream } from '@shypple/shared/log';
-import { errorHandlerMiddleware } from '@shypple/shared/middleware/error-handler';
+import config from '@bookio/config';
+import log, { customLogStream } from '@bookio/shared/log';
+import { errorHandlerMiddleware } from '@bookio/shared/middleware/error-handler';
 import { v1Router } from './api/v1';
 
 const server = express();

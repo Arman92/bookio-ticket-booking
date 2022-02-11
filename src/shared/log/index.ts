@@ -1,4 +1,4 @@
-import config from '@shypple/config';
+import config from '@bookio/config';
 import appRootPath from 'app-root-path';
 import winston from 'winston';
 

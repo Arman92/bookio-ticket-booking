@@ -1,13 +1,13 @@
 
-[![Node.js CI](https://github.com/Arman92/shypple-ticket-booking/actions/workflows/node.js.yml/badge.svg)](https://github.com/Arman92/shypple-ticket-booking/actions/workflows/node.js.yml)
+[![Node.js CI](https://github.com/Arman92/bookio-ticket-booking/actions/workflows/node.js.yml/badge.svg)](https://github.com/Arman92/bookio-ticket-booking/actions/workflows/node.js.yml)
 
 
-# shypple-ticket-booking
-Ticket booking backend service for Shypple backend interview
+# bookio-ticket-booking
+Ticket booking backend service for Bookio backend interview
 
 ## Installation
 ```bash
- git clone git@github.com:Arman92/shypple-ticket-booking.git 
+ git clone git@github.com:Arman92/bookio-ticket-booking.git 
  yarn install
 ```
 
@@ -26,8 +26,8 @@ APP_HOST=localhost                   # localhost is ok on docker
 
 
 # Config for MongoDB
-MONGO_DB_NAME = "shyppleDb"
-MONGO_USER = "shyppleDbUser"
+MONGO_DB_NAME = "booking-db"
+MONGO_USER = "booking-db-user"
 MONGO_PASSWORD = "some-secret-pass"
 MONGO_HOST = "database-dev"         # If you changed MONGO_HOST, remember to change it on docker-compose.yml also.
 MONGO_PORT=27017

@@ -1,12 +1,12 @@
 import mongoose, { Types } from 'mongoose';
 
-import { Repo } from '@shypple/core/infra/Repo';
+import { Repo } from '@bookio/core/infra/Repo';
 import { Booking } from '../domain/booking';
-import { UniqueEntityID } from '@shypple/core/domain';
-import { IBookingModel } from '@shypple/infra/mongoose/types/booking-type';
+import { UniqueEntityID } from '@bookio/core/domain';
+import { IBookingModel } from '@bookio/infra/mongoose/types/booking-type';
 import { BookingAdapter } from '../adapters/booking-adapter';
-import { RedisClient } from '@shypple/infra/redis';
-import { ITripModel } from '@shypple/infra/mongoose/types/trip-type';
+import { RedisClient } from '@bookio/infra/redis';
+import { ITripModel } from '@bookio/infra/mongoose/types/trip-type';
 
 export interface IBookingRepo extends Repo<Booking> {
   findById(id: UniqueEntityID): Promise<Booking>;

@@ -1,6 +1,6 @@
-import { UseCase } from '@shypple/core/domain/use-case';
-import { Result } from '@shypple/core/logic';
-import { CityRepo } from '@shypple/modules/booking/repos/city-repo';
+import { UseCase } from '@bookio/core/domain/use-case';
+import { Result } from '@bookio/core/logic';
+import { CityRepo } from '@bookio/modules/booking/repos/city-repo';
 import { City } from '../../domain/city';
 
 export interface SearchCitiesDTO {

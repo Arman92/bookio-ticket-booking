@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
-import { Repo } from '@shypple/core/infra/Repo';
-import { UniqueEntityID } from '@shypple/core/domain';
+import { Repo } from '@bookio/core/infra/Repo';
+import { UniqueEntityID } from '@bookio/core/domain';
 import { City } from '../domain/city';
-import { ICityModel } from '@shypple/infra/mongoose/types/city-type';
+import { ICityModel } from '@bookio/infra/mongoose/types/city-type';
 import { CityAdapter } from '../adapters/city-adapter';
 
 export interface ICityRepo extends Repo<City> {

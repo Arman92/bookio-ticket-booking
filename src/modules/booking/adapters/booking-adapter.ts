@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '@shypple/core/domain';
-import { IBookingModel } from '@shypple/infra/mongoose/types/booking-type';
+import { UniqueEntityID } from '@bookio/core/domain';
+import { IBookingModel } from '@bookio/infra/mongoose/types/booking-type';
 import { Booking } from '../domain/booking';
 
 export class BookingAdapter {

@@ -5,13 +5,13 @@ import {
   TransportVehicleModel,
   BookingModel,
   UserModel,
-} from '@shypple/infra/mongoose/models';
+} from '@bookio/infra/mongoose/models';
 import { CityRepo } from './city-repo';
 import { StationRepo } from './station-repo';
 import { TripRepo } from './trip-repo';
 import { TransportVehicleRepo } from './transport-vehicle-repo';
 import { BookingRepo } from './booking-repo';
-import { UserRepo } from '@shypple/modules/user/repos/user-repo';
+import { UserRepo } from '@bookio/modules/user/repos/user-repo';
 
 const stationRepo = new StationRepo(StationModel);
 const cityRepo = new CityRepo(CityModel);

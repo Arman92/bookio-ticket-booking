@@ -1,7 +1,7 @@
-import { UseCase } from '@shypple/core/domain/use-case';
-import { Result } from '@shypple/core/logic';
-import { BookingRepo } from '@shypple/modules/booking/repos';
-import { UniqueEntityID } from '@shypple/core/domain';
+import { UseCase } from '@bookio/core/domain/use-case';
+import { Result } from '@bookio/core/logic';
+import { BookingRepo } from '@bookio/modules/booking/repos';
+import { UniqueEntityID } from '@bookio/core/domain';
 
 export interface ReportTripBookingsDTO {
   tripId: UniqueEntityID;

@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
 import { ISharedModel } from './shared-model';
-import { TransportVehicleType } from '@shypple/modules/booking/domain/transport-vehicle';
+import { TransportVehicleType } from '@bookio/modules/booking/domain/transport-vehicle';
 
 export interface ITransportVehicle extends Document {
   name: string;

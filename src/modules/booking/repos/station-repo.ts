@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
-import { Repo } from '@shypple/core/infra/Repo';
+import { Repo } from '@bookio/core/infra/Repo';
 import { Station } from '../domain/station';
-import { UniqueEntityID } from '@shypple/core/domain';
-import { IStationModel } from '@shypple/infra/mongoose/types/station-type';
+import { UniqueEntityID } from '@bookio/core/domain';
+import { IStationModel } from '@bookio/infra/mongoose/types/station-type';
 import { StationAdapter } from '../adapters/station-adapter';
 
 export interface IStationRepo extends Repo<Station> {

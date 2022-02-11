@@ -1,9 +1,9 @@
 {
-  "name": "shypple-ticket-booking",
+  "name": "bookio-ticket-booking",
   "version": "1.0.0",
   "description": "Ticket booking service",
   "main": "index.js",
-  "repository": "git@github.com:Arman92/shypple-ticket-booking.git",
+  "repository": "git@github.com:Arman92/bookio-ticket-booking.git",
   "author": "Arman Safikhani <arman1371@gmail.com>",
   "license": "MIT",
   "private": true,
