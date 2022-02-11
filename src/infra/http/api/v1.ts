@@ -4,7 +4,7 @@ import {
   stationsRouter,
   citiesRouter,
   tripsRouter,
-} from '@shypple/modules/booking/infra/http/routes';
+} from '@bookio/modules/booking/infra/http/routes';
 
 const v1Router = express.Router();
 

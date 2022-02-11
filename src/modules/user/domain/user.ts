@@ -1,5 +1,5 @@
-import { Entity, UniqueEntityID } from '@shypple/core/domain';
-import { Result, Guard } from '@shypple/core/logic';
+import { Entity, UniqueEntityID } from '@bookio/core/domain';
+import { Result, Guard } from '@bookio/core/logic';
 
 interface UserProps {
   name: string;

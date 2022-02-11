@@ -2,7 +2,7 @@ import 'mocha';
 import { expect } from 'chai';
 
 import { Booking } from '../booking';
-import { UniqueEntityID } from '@shypple/core/domain';
+import { UniqueEntityID } from '@bookio/core/domain';
 
 describe('Booking', () => {
   it('Should be able to be created Booking', () => {

@@ -1,4 +1,4 @@
-import { ITransportVehicleModel } from '@shypple/infra/mongoose/types/transport-vehicle-type';
+import { ITransportVehicleModel } from '@bookio/infra/mongoose/types/transport-vehicle-type';
 import { TransportVehicle } from '../domain/transport-vehicle';
 
 export class TransportVehicleAdapter {

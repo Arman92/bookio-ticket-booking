@@ -1,9 +1,9 @@
 import { differenceInMinutes } from 'date-fns';
 
-import { UniqueEntityID } from '@shypple/core/domain';
-import { UseCase } from '@shypple/core/domain/use-case';
-import { Result } from '@shypple/core/logic';
-import { ForbiddenError, NotFoundError } from '@shypple/core/logic/api-errors';
+import { UniqueEntityID } from '@bookio/core/domain';
+import { UseCase } from '@bookio/core/domain/use-case';
+import { Result } from '@bookio/core/logic';
+import { ForbiddenError, NotFoundError } from '@bookio/core/logic/api-errors';
 import { Booking } from '../../domain/booking';
 import { StationRepo, TripRepo, BookingRepo, UserRepo } from '../../repos';
 export interface BookDTO {

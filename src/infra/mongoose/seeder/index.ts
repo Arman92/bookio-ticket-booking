@@ -1,12 +1,12 @@
 import faker from 'faker';
-import log from '@shypple/shared/log';
+import log from '@bookio/shared/log';
 import {
   CityModel,
   StationModel,
   TransportVehicleModel,
   UserModel,
 } from '../models';
-import { TransportVehicleType } from '@shypple/modules/booking/domain/transport-vehicle';
+import { TransportVehicleType } from '@bookio/modules/booking/domain/transport-vehicle';
 
 const randomNumber = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min) + min);

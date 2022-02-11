@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextFunction, Request, Response } from 'express';
 
-import log from '@shypple/shared/log';
+import log from '@bookio/shared/log';
 
 export const errorHandlerMiddleware = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

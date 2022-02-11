@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '@shypple/core/domain';
-import { IStationModel } from '@shypple/infra/mongoose/types/station-type';
+import { UniqueEntityID } from '@bookio/core/domain';
+import { IStationModel } from '@bookio/infra/mongoose/types/station-type';
 import { Station } from '../domain/station';
 
 export class StationAdapter {

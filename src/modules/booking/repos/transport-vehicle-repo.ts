@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 
-import { Repo } from '@shypple/core/infra/Repo';
+import { Repo } from '@bookio/core/infra/Repo';
 import {
   TransportVehicle,
   TransportVehicleType,
 } from '../domain/transport-vehicle';
-import { UniqueEntityID } from '@shypple/core/domain';
-import { ITransportVehicleModel } from '@shypple/infra/mongoose/types/transport-vehicle-type';
+import { UniqueEntityID } from '@bookio/core/domain';
+import { ITransportVehicleModel } from '@bookio/infra/mongoose/types/transport-vehicle-type';
 import { TransportVehicleAdapter } from '../adapters/transport-vehicle-adapter';
 
 export interface ITransportVehicleRepo extends Repo<TransportVehicle> {

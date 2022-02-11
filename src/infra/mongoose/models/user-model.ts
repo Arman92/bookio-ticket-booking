@@ -1,4 +1,4 @@
-import { hashPassword } from '@shypple/shared/utils/hash-password';
+import { hashPassword } from '@bookio/shared/utils/hash-password';
 import mongoose, { Schema } from 'mongoose';
 
 import { IUserModel } from '../types/user-type';

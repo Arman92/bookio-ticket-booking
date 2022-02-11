@@ -5,8 +5,8 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile.dev
-    image: shypple-server-dev
-    container_name: shypple-node-server
+    image: bookio-server-dev
+    container_name: bookio-node-server
     ports:
       - '${APP_PORT}:${APP_PORT}'
       - '9896:9896' # Debug port
@@ -23,7 +23,7 @@ services:
 
   database-dev:
     image: mongo:5.0.2
-    container_name: shypple-mongo-dev
+    container_name: bookio-mongo-dev
     hostname: mongodbserver
     env_file: .env
     environment:
@@ -39,7 +39,7 @@ services:
 
   redis-dev:
     image: eqalpha/keydb:alpine
-    container_name: shypple-redis-dev
+    container_name: bookio-redis-dev
     volumes:
       - ./docker-volumes/redis:/data
     restart: "always"
@@ -48,4 +48,4 @@ services:
 
 networks:
   app-network:
-    name: shypple-network
+    name: bookio-network

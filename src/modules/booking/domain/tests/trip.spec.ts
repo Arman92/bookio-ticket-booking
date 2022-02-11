@@ -2,7 +2,7 @@ import 'mocha';
 import { expect } from 'chai';
 import { addHours } from 'date-fns';
 
-import { UniqueEntityID } from '@shypple/core/domain';
+import { UniqueEntityID } from '@bookio/core/domain';
 import { Trip } from '../trip';
 
 describe('Trip', () => {

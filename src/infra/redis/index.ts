@@ -1,7 +1,7 @@
 import redis, { Redis, RedisOptions } from 'ioredis';
 
-import log from '@shypple/shared/log';
-import config from '@shypple/config';
+import log from '@bookio/shared/log';
+import config from '@bookio/config';
 
 export class RedisClient {
   private static instance: RedisClient;

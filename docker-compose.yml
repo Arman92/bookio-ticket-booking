@@ -5,8 +5,8 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    image: shypple-server
-    container_name: shypple-node-server
+    image: bookio-server
+    container_name: bookio-node-server
     ports:
       - '${APP_PORT}:${APP_PORT}'
     env_file: .env
@@ -17,7 +17,7 @@ services:
 
   database:
     image: mongo:5.0.2
-    container_name: shypple-mongo
+    container_name: bookio-mongo
     hostname: mongodbserver
     env_file: .env
     environment:
@@ -31,7 +31,7 @@ services:
 
   redis:
     image: eqalpha/keydb:alpine
-    container_name: shypple-redis-dev
+    container_name: bookio-redis-dev
     volumes:
       - ./docker-volumes/redis:/data
     restart: "always"
@@ -41,4 +41,4 @@ services:
 
 networks:
   app-network:
-    name: shypple-network
+    name: bookio-network

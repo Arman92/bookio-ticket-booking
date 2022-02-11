@@ -1,4 +1,4 @@
-import { IUserModel } from '@shypple/infra/mongoose/types/user-type';
+import { IUserModel } from '@bookio/infra/mongoose/types/user-type';
 import { User } from '../domain/user';
 
 export class UserAdapter {

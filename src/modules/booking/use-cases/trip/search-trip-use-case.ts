@@ -1,11 +1,11 @@
 import { isValid as isValidDate } from 'date-fns';
 
-import { UseCase } from '@shypple/core/domain/use-case';
-import { Result } from '@shypple/core/logic';
-import { NotFoundError, UserInputError } from '@shypple/core/logic/api-errors';
-import { TripRepo, CityRepo } from '@shypple/modules/booking/repos';
+import { UseCase } from '@bookio/core/domain/use-case';
+import { Result } from '@bookio/core/logic';
+import { NotFoundError, UserInputError } from '@bookio/core/logic/api-errors';
+import { TripRepo, CityRepo } from '@bookio/modules/booking/repos';
 import { Trip } from '../../domain/trip';
-import { UniqueEntityID } from '@shypple/core/domain';
+import { UniqueEntityID } from '@bookio/core/domain';
 
 export interface SearchTripDTO {
   fromCityId: UniqueEntityID;

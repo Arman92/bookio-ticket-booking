@@ -1,11 +1,11 @@
 import mongoose, { Types } from 'mongoose';
 
-import { Repo } from '@shypple/core/infra/Repo';
-import { UniqueEntityID } from '@shypple/core/domain';
+import { Repo } from '@bookio/core/infra/Repo';
+import { UniqueEntityID } from '@bookio/core/domain';
 import { Trip } from '../domain/trip';
-import { ITripModel } from '@shypple/infra/mongoose/types/trip-type';
+import { ITripModel } from '@bookio/infra/mongoose/types/trip-type';
 import { TripAdapter } from '../adapters/trip-adapter';
-import { IStationModel } from '@shypple/infra/mongoose/types/station-type';
+import { IStationModel } from '@bookio/infra/mongoose/types/station-type';
 import { bookingRepo } from './';
 
 export interface ITripRepo extends Repo<Trip> {

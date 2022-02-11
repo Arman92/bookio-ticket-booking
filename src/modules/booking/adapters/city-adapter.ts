@@ -1,4 +1,4 @@
-import { ICityModel } from '@shypple/infra/mongoose/types/city-type';
+import { ICityModel } from '@bookio/infra/mongoose/types/city-type';
 import { City } from '../domain/city';
 
 export class CityAdapter {

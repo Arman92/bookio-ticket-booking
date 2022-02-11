@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '@shypple/core/domain';
-import { ITripModel } from '@shypple/infra/mongoose/types/trip-type';
+import { UniqueEntityID } from '@bookio/core/domain';
+import { ITripModel } from '@bookio/infra/mongoose/types/trip-type';
 import { Trip } from '../domain/trip';
 
 export class TripAdapter {

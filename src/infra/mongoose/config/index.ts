@@ -1,4 +1,4 @@
-import config from '@shypple/config';
+import config from '@bookio/config';
 
 export const mongoDbOptions = {
   useNewUrlParser: true,
